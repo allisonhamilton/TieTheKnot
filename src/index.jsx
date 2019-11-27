@@ -9,7 +9,7 @@ import reloadMagic from "./reload-magic-client.js"; // automatic reload
 reloadMagic(); // automatic reload
 
 ReactDOM.render(
-  <Provider>
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById("root")

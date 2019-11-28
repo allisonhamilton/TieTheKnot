@@ -20,10 +20,11 @@ let url =
 MongoClient.connect(
   url,
   {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   },
   (err, db) => {
-    dbo = db.db("project-board");
+    dbo = db.db("wedding-planner");
   }
 );
 let generateId = () => {
@@ -33,27 +34,68 @@ let generateId = () => {
 app.post("/signup", upload.none(), (req, res) => {
   let name = req.body.username;
   let pwd = req.body.password;
-  dbo.collection("users").findOne({ username: name }),
-    (err, user) => {
-      if (err) {
-        res.send(JSON.stringify({ success: false }));
-        return;
-      }
-      if (user !== null) {
-        res.send(JSON.stringify({ success: false }));
-        return;
-      }
-      if (user === null) {
-        dbo.collection("users").insertOne({ username: name, password: pwd });
-      }
-      let sessionId = generateId();
-      sessions[sessionId] = nameres.cookie("sid", sessionId);
-      res.send(JSON.stringify({ success: true }));
-    };
-  return;
+  let country = req.body.country;
+  let email = req.body.email;
+  dbo.collection("users").findOne({ username: name }, (err, user) => {
+    if (err) {
+      res.send(JSON.stringify({ success: false }));
+      return;
+    }
+    if (user !== null) {
+      res.send(JSON.stringify({ success: false }));
+      return;
+    }
+    if (user === null) {
+      dbo
+        .collection("users")
+        .insertOne({
+          username: name,
+          password: pwd,
+          country: country,
+          email: email
+        });
+    }
+    let sessionId = generateId();
+    sessions[sessionId] = name;
+
+    res.cookie("sid", sessionId);
+    res.send(JSON.stringify({ success: true }));
+    return;
+  });
 });
 
-app.post("/login");
+app.post("/login", upload.none(), (req, res) => {
+  console.log("login why you no work?", req.body);
+  let username = req.body.username;
+  let password = req.body.password;
+
+  dbo.collection("users").findOne({ username: username }, (err, user) => {
+    if (err) {
+      res.send(
+        JSON.stringify({
+          success: false
+        })
+      );
+      return;
+    }
+    if (user === null) {
+      res.send(JSON.stringify({ success: false }));
+      return;
+    }
+    if (user.password === password) {
+      let sessionId = generateId();
+      sessions[sessionId] = username;
+      res.cookie("sid", sessionId);
+      res.send(JSON.stringify({ success: true }));
+      return;
+    }
+    res.send(
+      JSON.stringify({
+        success: false
+      })
+    );
+  });
+});
 
 // Your endpoints go before this line
 

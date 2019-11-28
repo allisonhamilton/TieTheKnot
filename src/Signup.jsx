@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./signup.css";
 
+const countries = new Array("", "Canada", "United Kingdom", "USA");
+
 class UnconnectedSignup extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      country: countries[0],
+      email: ""
     };
   }
   signupUsernameChange = event => {
@@ -17,16 +21,25 @@ class UnconnectedSignup extends Component {
   signupPasswordChange = event => {
     this.setState({ password: event.target.value });
   };
+  countryOnChange = event => {
+    this.setState({ country: event.target.value });
+  };
+  emailOnChange = event => {
+    this.setState({ email: event.target.value });
+  };
   onSubmitHandler = async event => {
     event.preventDefault();
     let data = new FormData();
     data.append("username", this.state.username);
     data.append("password", this.state.password);
+    data.append("country", this.state.country);
+    data.append("email", this.state.email);
     let response = await fetch("/signup", {
       method: "POST",
       body: data,
       credentials: "include"
     });
+
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
     if (!body.success) {
@@ -51,7 +64,7 @@ class UnconnectedSignup extends Component {
           <div>
             <input
               type="text"
-              placeholder="Username"
+              placeholder="First name..."
               value={this.state.username}
               onChange={this.signupUsernameChange}
             />
@@ -59,17 +72,39 @@ class UnconnectedSignup extends Component {
           <div>
             <input
               type="text"
-              placeholder="Password"
+              placeholder="Password..."
               value={this.state.password}
               onChange={this.signupPasswordChange}
             />
           </div>
           <div>
-            <input type="submit" value="Sign me up!" />
+            <input
+              placeholder="Email..."
+              type="email"
+              name="Mail"
+              onChange={this.emailOnChange}
+            />
+          </div>
+          <div>
+            <select
+              value={this.state.country}
+              id="country"
+              name="country"
+              onChange={this.countryOnChange}
+            >
+              <option value="">--Please choose a country--</option>
+              {countries.map(country => {
+                return <option value={country}>{country}</option>;
+              })}
+            </select>
+          </div>
+          <div>
+            <input type="submit" value="Sign up" />
           </div>
         </form>
         <div>
-          <Link to="/login">Already have an account? Click here to login!</Link>
+          Already have an account?
+          <Link to="/login">Log in</Link>
         </div>
       </div>
     );

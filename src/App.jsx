@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import Signup from "./Signup.jsx";
+import Login from "./Login.jsx";
 import MainPage from "./MainPage.jsx";
 import store from "./store.js";
 import "./app.css";

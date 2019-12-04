@@ -1,0 +1,10 @@
+.container-dashboard {
+  display: flex;
+}
+
+.dashboard-right {
+  display: flex;
+  flex-direction: initial;
+  align-items: baseline;
+  justify-content: flex-end;
+}

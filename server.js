@@ -36,6 +36,8 @@ app.post("/signup", upload.none(), (req, res) => {
   let pwd = req.body.password;
   let country = req.body.country;
   let email = req.body.email;
+  let who = req.body.who;
+  let date = req.body.date;
   dbo.collection("users").findOne({ username: name }, (err, user) => {
     if (err) {
       res.send(JSON.stringify({ success: false }));
@@ -46,14 +48,14 @@ app.post("/signup", upload.none(), (req, res) => {
       return;
     }
     if (user === null) {
-      dbo
-        .collection("users")
-        .insertOne({
-          username: name,
-          password: pwd,
-          country: country,
-          email: email
-        });
+      dbo.collection("users").insertOne({
+        username: name,
+        password: pwd,
+        country: country,
+        email: email,
+        who: who,
+        date: date
+      });
     }
     let sessionId = generateId();
     sessions[sessionId] = name;

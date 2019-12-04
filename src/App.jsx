@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import Signup from "./Signup.jsx";
 import Login from "./Login.jsx";
 import MainPage from "./MainPage.jsx";
-import store from "./store.js";
+import Dashboard from "./Dashboard.jsx";
+import Profile from "./Profile.jsx";
 import "./app.css";
 
 class UnconnectedApp extends Component {
@@ -17,19 +18,33 @@ class UnconnectedApp extends Component {
   signupPageRender = () => {
     return <Signup />;
   };
+  profilePageRender = () => {
+    return <Profile />;
+  };
   render = () => {
     return (
       <BrowserRouter>
         <div>
+          <Dashboard />
           <Route exact={true} path="/" render={this.mainPageRender} />
           <Route exact={true} path="/login" render={this.loginPageRender} />
           <Route exact={true} path="/signup" render={this.signupPageRender} />
+          <Route exact={true} path="/profile" render={this.profilePageRender} />
         </div>
       </BrowserRouter>
     );
   };
 }
 
-let App = connect()(UnconnectedApp);
+let mapStateToProps = state => {
+  console.log("state in app", state);
+  return {
+    users: state.users,
+    loggedIn: state.loggedIn,
+    login: state.login
+  };
+};
+
+let App = connect(mapStateToProps)(UnconnectedApp);
 
 export default App;

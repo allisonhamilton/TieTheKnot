@@ -67,7 +67,6 @@ app.post("/signup", upload.none(), (req, res) => {
 });
 
 app.post("/login", upload.none(), (req, res) => {
-  console.log("login why you no work?", req.body);
   let username = req.body.username;
   let password = req.body.password;
 
@@ -97,6 +96,20 @@ app.post("/login", upload.none(), (req, res) => {
       })
     );
   });
+});
+
+app.post("/logout", upload.none(), (res, req) => {
+  let sessionId = req.cookies.sessionId;
+  let username = sessions[sessionId];
+
+  if (username === undefined) {
+    res.send(JSON.stringify({ success: false }));
+    return;
+  }
+  delete username;
+  res.cookie("sid", 0, { expires: -1 });
+  res.send(JSON.stringify({ success: true }));
+  return;
 });
 
 // Your endpoints go before this line

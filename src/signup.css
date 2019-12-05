@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
 }
 
 .signup {
@@ -11,32 +10,42 @@
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-  font-family: "Dancing Script", cursive;
-  border: 1px solid #4c5c87;
+  background-color: white;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  border: 2px solid #4c5c87;
   width: 400px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 0px 10px 10px 0px;
+  height: 500px;
 }
-
+.form-signup {
+  display: flex;
+  align-items: center;
+}
 .signup-child {
   margin: 10px;
-  font-family: "Dancing Script", cursive;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
   font-size: 18px;
-  color: #4c5c87;
+  color: #3f4d71;
 }
 
 .link {
   margin: 10px;
-  font-family: "Dancing Script", cursive;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
   color: #4c5c87;
   font-size: 12px;
+  text-decoration: none;
 }
 
 .signup-button {
   display: flex;
   border: 0;
   align-items: center;
-  font-family: "Dancing Script", cursive;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
   padding: 0px 10px;
   margin-top: 10px;
   color: #fff;
@@ -50,4 +59,8 @@
   height: auto;
   border-radius: 10px 10px 10px 10px !important;
   font-size: medium;
+}
+.signup-pic {
+  height: 500px;
+  border-radius: 10px 0px 0px 10px;
 }

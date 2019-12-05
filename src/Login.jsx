@@ -1,13 +1,15 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import "./login.css";
 
 class UnconnectedLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loginUser: "",
-      loginPwd: ""
+      loginPwd: "",
+      redirect: false
     };
   }
   usernameChange = event => {
@@ -17,6 +19,7 @@ class UnconnectedLogin extends Component {
     this.setState({ loginPwd: event.target.value });
   };
   loginSubmitHandler = async event => {
+    console.log("login submit handler", this.state.loginUser);
     event.preventDefault();
     let data = new FormData();
     data.append("username", this.state.loginUser);
@@ -32,22 +35,26 @@ class UnconnectedLogin extends Component {
     let body = JSON.parse(responseBody);
     console.log("body login", body);
     if (!body.success) {
+      this.setState({ loginUser: "", loginPwd: "" });
       alert("Failed login, try again or sign up");
       return;
     }
     {
-      this.setState({ loginUser: "", loginPwd: "" });
       this.props.dispatch({
         type: "login-success",
-        usernameLogin: this.state.loginUser
+        loggedIn: this.state.loginUser
       });
+      this.setState({ redirect: true });
       alert("login successful");
+      return;
     }
   };
   render = () => {
+    if (this.state.redirect) return <Redirect to="/" />;
     return (
-      <div>
-        <form onSubmit={this.loginSubmitHandler}>
+      <div className="login-box">
+        <img src="/uploads/login-pic.jpg" className="login-pic" />
+        <form onSubmit={this.loginSubmitHandler} className="login-container">
           <div>
             <input
               type="text"
@@ -58,15 +65,17 @@ class UnconnectedLogin extends Component {
           </div>
           <div>
             <input
-              type="text"
+              type="password"
               value={this.state.loginPwd}
               placeholder="Password..."
               onChange={this.passwordChange}
             />
           </div>
-          <input type="submit" />
+          <input type="submit" className="login-button" />
           <div>
-            <Link to="/signup">Don't have an account yet, sign up here!</Link>
+            <Link to="/signup" className="login-link">
+              Don't have an account yet, sign up here!
+            </Link>
           </div>
         </form>
       </div>

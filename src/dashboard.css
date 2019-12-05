@@ -1,10 +1,37 @@
 .container-dashboard {
-  display: flex;
+  background-color: white;
+  height: 125px;
 }
 
 .dashboard-right {
+  position: absolute;
+  right: 10px;
+  top: 20px;
+}
+.logo-icon {
   display: flex;
-  flex-direction: initial;
-  align-items: baseline;
-  justify-content: flex-end;
+  align-items: flex-start;
+  text-decoration: none;
+}
+logo-image {
+  width: 250px;
+}
+.name {
+  font-family: "Hammersmith One";
+  font-weight: bold;
+  margin-top: 12px;
+  font-size: xx-large;
+  color: #3f4d71;
+  position: relative;
+  left: -10px;
+}
+
+.dashboard-link {
+  display: flex;
+  margin: 10px;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  color: #4c5c87;
+  font-size: 16px;
+  text-decoration: none;
 }

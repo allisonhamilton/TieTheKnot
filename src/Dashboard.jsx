@@ -1,41 +1,53 @@
-//login and signup icons
-//if logged in, have a log out button and a welcome <user name> section
-//profile page icon
-//the logo in the middle
-//menu items with links 1-wedding planning tool (to do list) 2-search bar 3-wedding crafts 4- wedding blog ideas
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import "./dashboard.css";
 
 class UnconnectedDashboard extends Component {
+  ifNotLoggedIn = () => {
+    return (
+      <div className="dashboard-right">
+        <Link to="/login" className="dashboard-link">
+          <span>Log in</span>
+        </Link>
+        <Link to="/signup" className="dashboard-link">
+          <span>Sign up</span>
+        </Link>
+      </div>
+    );
+  };
+  ifLoggedIn = () => {
+    return (
+      <div className="dashboard-right">
+        <Link to="/profile/:pid" className="dashboard-link">
+          My profile
+        </Link>
+        <div onClick={this.ifLoggedOut}>
+          <Link to="/" className="dashboard-link">
+            Log out
+          </Link>
+        </div>
+      </div>
+    );
+  };
+  logoutHandler = () => {
+    fetch("/logout", { method: "POST", body: "", credentials: "include" });
+    this.props.dispatch({ type: "logout-success", loggedIn: "" });
+    alert("You have successfully logged out");
+  };
+
   render = () => {
     return (
       <div className="container-dashboard">
-        <Link to="/" className="link">
-          To homepage
-        </Link>
-        <div className="dashboard-right">
-          <Link to="/login" className="link">
-            <img
-              src="uploads/loginimg.png"
-              height="60px"
-              className="icon"
-              aria-label="login"
-            />
-          </Link>
-          <Link to="/signup" className="link">
-            <img
-              src="uploads/52477-200.png"
-              height="40px"
-              className="icon"
-              aria-label="signup"
-            />
-          </Link>
-          <Link to="/profile" className="link">
-            My profile page
+        <div>
+          <Link to="/" className="logo-icon">
+            <img src="/uploads/logo-good.png" className="logo-image" />
+            <span className="name">TieTheKnot</span>
           </Link>
         </div>
+        <section>
+          {this.props.login ? this.ifLoggedIn() : this.ifNotLoggedIn()}
+        </section>
       </div>
     );
   };
@@ -44,8 +56,7 @@ class UnconnectedDashboard extends Component {
 let mapStateToProps = state => {
   console.log("STATE FOR DASHBOARD", state);
   return {
-    loggedIn: state.loggedIn,
-    users: state.users
+    login: state.login
   };
 };
 

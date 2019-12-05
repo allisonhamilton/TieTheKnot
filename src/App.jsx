@@ -6,6 +6,7 @@ import Login from "./Login.jsx";
 import MainPage from "./MainPage.jsx";
 import Dashboard from "./Dashboard.jsx";
 import Profile from "./Profile.jsx";
+import Checklist from "./Checklist.jsx";
 import "./app.css";
 
 class UnconnectedApp extends Component {
@@ -18,8 +19,15 @@ class UnconnectedApp extends Component {
   signupPageRender = () => {
     return <Signup />;
   };
-  profilePageRender = () => {
-    return <Profile />;
+  profilePageRender = routerData => {
+    let userId = routerData.match.params.pid;
+    let user = this.props.users.find(user => {
+      return user._id === userId
+    });
+    return <Profile user={user}/>;
+  };
+  checklistPageRender = () => {
+    return <Checklist />;
   };
   render = () => {
     return (
@@ -29,7 +37,16 @@ class UnconnectedApp extends Component {
           <Route exact={true} path="/" render={this.mainPageRender} />
           <Route exact={true} path="/login" render={this.loginPageRender} />
           <Route exact={true} path="/signup" render={this.signupPageRender} />
-          <Route exact={true} path="/profile" render={this.profilePageRender} />
+          <Route
+            exact={true}
+            path="/profile/:pid"
+            render={this.profilePageRender}
+          />
+          <Route
+            exact={true}
+            path="/checklist"
+            render={this.checklistPageRender}
+          />
         </div>
       </BrowserRouter>
     );

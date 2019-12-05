@@ -5,8 +5,9 @@ let reducer = (state, action) => {
     return { ...state, login: true, loggedIn: action.loggedIn };
   }
   if (action.type === "logout-success") {
-    return { ...state, login: false, loggedIn: "" };
+    return { ...state, login: false, loggedIn: action.loggedIn };
   }
+
   return state;
 };
 

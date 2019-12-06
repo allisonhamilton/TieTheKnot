@@ -31,6 +31,26 @@ let generateId = () => {
   return "" + Math.floor(Math.random() * 100000000);
 };
 // Your endpoints go after this line
+app.get("/allusers", (req, res) => {
+  dbo
+    .collection("users")
+    .find({})
+    .toArray((err, user) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false
+          })
+        );
+        return;
+      }
+      res.send(
+        JSON.stringify({
+          user
+        })
+      );
+    });
+});
 app.post("/signup", upload.none(), (req, res) => {
   let name = req.body.username;
   let pwd = req.body.password;
@@ -58,7 +78,7 @@ app.post("/signup", upload.none(), (req, res) => {
       });
     }
     let sessionId = generateId();
-    sessions[sessionId] = name;
+    sessions[sessionId] = email;
 
     res.cookie("sid", sessionId);
     res.send(JSON.stringify({ success: true }));
@@ -67,10 +87,10 @@ app.post("/signup", upload.none(), (req, res) => {
 });
 
 app.post("/login", upload.none(), (req, res) => {
-  let username = req.body.username;
+  let email = req.body.email;
   let password = req.body.password;
 
-  dbo.collection("users").findOne({ username: username }, (err, user) => {
+  dbo.collection("users").findOne({ email: email }, (err, email) => {
     if (err) {
       res.send(
         JSON.stringify({
@@ -79,13 +99,13 @@ app.post("/login", upload.none(), (req, res) => {
       );
       return;
     }
-    if (user === null) {
+    if (email === null) {
       res.send(JSON.stringify({ success: false }));
       return;
     }
-    if (user.password === password) {
+    if (email.password === password) {
       let sessionId = generateId();
-      sessions[sessionId] = username;
+      sessions[sessionId] = email;
       res.cookie("sid", sessionId);
       res.send(JSON.stringify({ success: true }));
       return;
@@ -97,7 +117,17 @@ app.post("/login", upload.none(), (req, res) => {
     );
   });
 });
-
+app.post("/editUser", upload.single("img"), (res, req) => {
+  console.log("req.body.username", req.body.username);
+  let username = req.body.username;
+  db.users.findOneandupdate({
+    $set: {
+      username: username
+    }
+  });
+  res.send(JSON.stringify({ success: true }));
+  return;
+});
 app.post("/logout", upload.none(), (res, req) => {
   let sessionId = req.cookies.sessionId;
   let username = sessions[sessionId];

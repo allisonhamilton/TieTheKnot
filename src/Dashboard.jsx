@@ -17,9 +17,13 @@ class UnconnectedDashboard extends Component {
     );
   };
   ifLoggedIn = () => {
+    let user = this.props.users.find(user => {
+      return user.email === this.props.loggedIn;
+    });
+
     return (
       <div className="dashboard-right">
-        <Link to="/profile/:pid" className="dashboard-link">
+        <Link to={"/profile/" + user._id} className="dashboard-link">
           My profile
         </Link>
         <div onClick={this.ifLoggedOut}>
@@ -56,7 +60,9 @@ class UnconnectedDashboard extends Component {
 let mapStateToProps = state => {
   console.log("STATE FOR DASHBOARD", state);
   return {
-    login: state.login
+    login: state.login,
+    users: state.users,
+    loggedIn: state.loggedIn
   };
 };
 

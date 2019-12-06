@@ -10,6 +10,12 @@ import Checklist from "./Checklist.jsx";
 import "./app.css";
 
 class UnconnectedApp extends Component {
+  componentDidMount = async () => {
+    let response = await fetch("/allusers");
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
+    this.props.dispatch({ type: "set-users", users: body.user });
+  };
   mainPageRender = () => {
     return <MainPage />;
   };
@@ -20,11 +26,14 @@ class UnconnectedApp extends Component {
     return <Signup />;
   };
   profilePageRender = routerData => {
-    let userId = routerData.match.params.pid;
+    let userId = routerData.match.params._id;
+    console.log("what's going on users", this.props.users, userId);
     let user = this.props.users.find(user => {
-      return user._id === userId
+      console.log("Another users console.log", user._id);
+      return user._id === userId;
     });
-    return <Profile user={user}/>;
+    console.log("WHAT", user, userId);
+    return <Profile user={user} />;
   };
   checklistPageRender = () => {
     return <Checklist />;
@@ -39,7 +48,7 @@ class UnconnectedApp extends Component {
           <Route exact={true} path="/signup" render={this.signupPageRender} />
           <Route
             exact={true}
-            path="/profile/:pid"
+            path="/profile/:_id"
             render={this.profilePageRender}
           />
           <Route
@@ -58,7 +67,8 @@ let mapStateToProps = state => {
   return {
     users: state.users,
     loggedIn: state.loggedIn,
-    login: state.login
+    login: state.login,
+    toggleEditProfile: state.toggleEditProfile
   };
 };
 

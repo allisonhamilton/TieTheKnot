@@ -7,22 +7,22 @@ class UnconnectedLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginUser: "",
+      loginEmail: "",
       loginPwd: "",
       redirect: false
     };
   }
   usernameChange = event => {
-    this.setState({ loginUser: event.target.value });
+    this.setState({ loginEmail: event.target.value });
   };
   passwordChange = event => {
     this.setState({ loginPwd: event.target.value });
   };
   loginSubmitHandler = async event => {
-    console.log("login submit handler", this.state.loginUser);
+    console.log("login submit handler", this.state.loginEmail);
     event.preventDefault();
     let data = new FormData();
-    data.append("username", this.state.loginUser);
+    data.append("email", this.state.loginEmail);
     data.append("password", this.state.loginPwd);
     let response = await fetch("/login", {
       method: "POST",
@@ -35,14 +35,14 @@ class UnconnectedLogin extends Component {
     let body = JSON.parse(responseBody);
     console.log("body login", body);
     if (!body.success) {
-      this.setState({ loginUser: "", loginPwd: "" });
+      this.setState({ loginEmail: "", loginPwd: "" });
       alert("Failed login, try again or sign up");
       return;
     }
     {
       this.props.dispatch({
         type: "login-success",
-        loggedIn: this.state.loginUser
+        loggedIn: this.state.loginEmail
       });
       this.setState({ redirect: true });
       alert("login successful");
@@ -57,9 +57,9 @@ class UnconnectedLogin extends Component {
         <form onSubmit={this.loginSubmitHandler} className="login-container">
           <div>
             <input
-              type="text"
-              value={this.state.loginUser}
-              placeholder="Username..."
+              type="email"
+              value={this.state.loginEmail}
+              placeholder="Email..."
               onChange={this.usernameChange}
             />
           </div>

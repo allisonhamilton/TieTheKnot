@@ -140,12 +140,12 @@ class UnconnectedSignup extends Component {
                 onChange={this.whoOnChange}
               >
                 <option value="">--Please choose who you are--</option>
-                <option value="bride">I am the bride</option>
-                <option value="grrom">I am the groom</option>
-                <option value="relative">I am a relative</option>
-                <option value="professional">I am a professional</option>
-                <option value="guest">I am a guest</option>
-                <option value="other">I am someone other ....</option>
+                <option value="Bride">I am the bride</option>
+                <option value="Groom">I am the groom</option>
+                <option value="Relative">I am a relative</option>
+                <option value="Professional">I am a professional</option>
+                <option value="Guest">I am a guest</option>
+                <option value="Other">I am someone other ....</option>
               </select>
             </div>
             <div>

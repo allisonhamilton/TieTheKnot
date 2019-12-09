@@ -13,12 +13,21 @@ let reducer = (state, action) => {
   if (action.type === "edit-profile") {
     return { ...state, toggleEditProfile: action.toggleEditProfile };
   }
+  if (action.type === "new-checklist") {
+    return { ...state, checklist: action.checklist };
+  }
   return state;
 };
 
 let store = createStore(
   reducer,
-  { login: false, loggedIn: "", users: [], toggleEditProfile: false },
+  {
+    login: false,
+    loggedIn: "",
+    users: [],
+    toggleEditProfile: false,
+    checklist: []
+  },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 export default store;

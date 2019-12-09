@@ -120,13 +120,45 @@ app.post("/login", upload.none(), (req, res) => {
 app.post("/editUser", upload.single("img"), (res, req) => {
   console.log("req.body.username", req.body.username);
   let username = req.body.username;
-  db.users.findOneandupdate({
+
+  db.users.findOneAndUpdate({
     $set: {
       username: username
     }
   });
   res.send(JSON.stringify({ success: true }));
   return;
+});
+app.post("/saveChecklist", upload.none(), (req, res) => {
+  let username = req.body.username;
+  let checklist = req.body.checklist;
+  dbo.collection("users").findOne(
+    {
+      username: username
+    },
+    (err, user) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false
+          })
+        );
+        return;
+      }
+      if (user === null) {
+        res.send(JSON.stringify({ success: false }));
+        return;
+      }
+      if (user === username) {
+        dbo.collections("checklists").insertOne({
+          userId: user._id,
+          checklist: checklist
+        });
+        res.send(JSON.stringify({ success: true }));
+        return;
+      }
+    }
+  );
 });
 app.post("/logout", upload.none(), (res, req) => {
   let sessionId = req.cookies.sessionId;

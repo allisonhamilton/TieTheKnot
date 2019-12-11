@@ -35,3 +35,11 @@ body {
   display: flex;
   justify-content: space-between;
 }
+.mainpage-carousel-conatiner {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+.slide-picture {
+    
+}

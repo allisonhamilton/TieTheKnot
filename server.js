@@ -129,14 +129,17 @@ app.post("/editUser", upload.single("img"), (res, req) => {
   res.send(JSON.stringify({ success: true }));
   return;
 });
-app.post("/saveChecklist", upload.none(), (req, res) => {
-  let username = req.body.username;
-  let checklist = req.body.checklist;
+app.post("/newTask", upload.none(), (req, res) => {
+  console.log("body", req.body);
+  let userEmail = req.body.email;
+  let task = req.body.task;
+  let date = req.body.dueDate;
+  let done = req.body.done;
   dbo.collection("users").findOne(
     {
-      username: username
+      email: userEmail
     },
-    (err, user) => {
+    (err, email) => {
       if (err) {
         res.send(
           JSON.stringify({
@@ -145,14 +148,17 @@ app.post("/saveChecklist", upload.none(), (req, res) => {
         );
         return;
       }
-      if (user === null) {
+      if (email === null) {
         res.send(JSON.stringify({ success: false }));
         return;
       }
-      if (user === username) {
+      console.log("emails", userEmail, email);
+      if (email === userEmail) {
         dbo.collections("checklists").insertOne({
-          userId: user._id,
-          checklist: checklist
+          userId: email._id,
+          title: task,
+          date: date,
+          done: done
         });
         res.send(JSON.stringify({ success: true }));
         return;

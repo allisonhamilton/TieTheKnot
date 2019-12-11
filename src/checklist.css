@@ -1,0 +1,34 @@
+.container-checklist {
+  display: list-item;
+  list-style-type: none;
+}
+
+.container-listitem-twelve {
+  display: list-item;
+  width: 600px;
+  list-style-position: inside;
+}
+
+.container-listitem-eight {
+  display: list-item;
+  width: 600px;
+  list-style-position: inside;
+}
+
+.container-listitem-four {
+  display: list-item;
+  width: 600px;
+  list-style-position: inside;
+}
+
+.checklist-task-item {
+  border: solid 1px;
+  padding: 15px;
+  position: relative;
+}
+
+li {
+  list-style-type: none;
+  padding: 0.3em 0 1em 40px;
+  background-image: url(/uploads/check-icon.png) no-repeat;
+}

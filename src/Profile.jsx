@@ -50,7 +50,7 @@ class UnconnectedProfile extends Component {
       return (
         <div>
           <h3> {this.props.user.username}</h3>
-          <div>{this.props.user.who}</div>
+          <div> {this.props.user.who}</div>
           <div>{this.props.user.country}</div>
           <button onClick={this.editProfileClick}>Edit</button>
         </div>
@@ -71,6 +71,14 @@ class UnconnectedProfile extends Component {
                 onChange={this.usernameOnChange}
               />
             </div>
+            <div>
+              Change your password
+              <input type="password" placeholder="New Password" />
+            </div>
+            <div>
+              Change your photo <input type="file" />
+            </div>
+
             <div>
               <input type="submit" value="Update" />
             </div>

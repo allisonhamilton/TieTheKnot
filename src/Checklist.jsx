@@ -1,109 +1,111 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./checklist.css";
+import { Link } from "react-router-dom";
 
 class UnconnectedChecklist extends Component {
   constructor(props) {
     super(props);
     this.state = {
       input: "",
-      items: []
+      dueDate: "",
+      done: false
     };
   }
   addItemChange = event => {
     this.setState({ input: event.target.value });
   };
-  addItemSubmit = event => {
+  dueDateChange = event => {
+    this.setState({ dueDate: event.target.value });
+  };
+  addTaskSubmit = async event => {
     event.preventDefault();
-    {
-      this.setState({
-        input: "",
-        items: this.state.items.concat(this.state.input)
-      });
-    }
-  };
-  deleteItemClick = () => {
-    console.log("deleting item");
-    this.state.items.filter((item, index) => {
-      console.log("Is the item deleted", index);
-      return index !== i;
-    });
-  };
-  saveChecklist = async () => {
+    console.log("ADD A NEW TASK");
     let data = new FormData();
-    data.append("checklist", this.state.items);
-    let response = await fetch("/saveChecklist", {
+    data.append("email", this.props.loggedIn);
+    data.append("task", this.state.input);
+    data.append("dueDate", this.state.dueDate);
+    data.append("done", this.state.done);
+    console.log("data", data);
+    let response = await fetch("newTask", {
       method: "POST",
       body: data,
       credentials: "include"
     });
+    console.log("response", response);
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
-    console.log("success or not ", body.success);
+    console.log("body", body);
     if (!body.success) {
-      alert("your checklist has not been saved, please try agian");
+      alert("You're task has not been added, can you please try again?");
+      return;
     }
     {
-      this.props.dispatch({
-        type: "new-checklist",
-        checklist: this.props.checklist.concat(this.state.items)
+      alert("You have successfully added a new task!");
+      this.setState({
+        input: "",
+        dueDate: "",
+        task: {}
       });
-      alert("Your checklist has been saved to your profile!");
-      this.setState({ items: [] });
+      this.props.dispatch({
+        type: "add-task"
+      });
     }
   };
-  deleteItemClick = i => {
-    console.log("whats i", i);
-    return this.state.items.filter(index => {
-      return index !== i;
-    });
-  };
   render = () => {
-    return (
-      <div>
-        <div>Checklist page, everything you need to plan your wedding</div>
+    if (this.props.loggedIn === "") {
+      return (
         <div>
-          <ul>
-            {this.state.items.map((item, i) => {
-              return (
-                <li>
-                  {item}
-                  <button onClick={this.deleteItemClick}>
-                    <img
-                      src="/uploads/delete-xx.png"
-                      height="8px"
-                      width="8px"
-                    />
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <span>You must be signed in to access your profile page.</span>
+          <Link to="/login">Sign in here.</Link>
+        </div>
+      );
+    }
+    if (this.props.login) {
+      return (
+        <div>
+          <form onSubmit={this.addTaskSubmit}>
+            <input
+              name="title"
+              type="text"
+              placeholder="Add a new task..."
+              value={this.state.input}
+              onChange={this.addItemChange}
+            />
+            <select name="dueDate" onChange={this.dueDateChange}>
+              <option value="">--When should this task be done-</option>
+              <option value="8 to 12 months before">
+                8 to 12 months before
+              </option>
+              <option value="4 to 8 months before">4 to 8 months before</option>
+              <option value="1 to 4 months before">1 to 4 months before</option>
+              <option value="1 months left">1 months before</option>
+            </select>
+            <input type="submit" value="Add to checklist" />
+          </form>
+
           <div>
-            <form onSubmit={this.addItemSubmit}>
-              <input
-                type="text"
-                placeholder="Add wedding to do..."
-                value={this.state.input}
-                onChange={this.addItemChange}
-              />
-              <input type="submit" value="Add to checklist" />
-            </form>
-            <div>
-              <button onClick={this.saveChecklist}>Save your checklist</button>
-            </div>
+            <ul>
+              {this.props.allTasks.map(task => {
+                return <li>{task}</li>;
+              })}
+            </ul>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   };
 }
 
 let mapStateToProps = state => {
   return {
-    checklist: state.checklist
+    login: state.login,
+    loggedIn: state.loggedIn,
+    allTasks: state.allTasks,
+    users: state.users
   };
 };
+
 let Checklist = connect(mapStateToProps)(UnconnectedChecklist);
 
 export default Checklist;

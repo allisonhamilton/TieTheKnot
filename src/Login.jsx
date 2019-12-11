@@ -19,7 +19,6 @@ class UnconnectedLogin extends Component {
     this.setState({ loginPwd: event.target.value });
   };
   loginSubmitHandler = async event => {
-    console.log("login submit handler", this.state.loginEmail);
     event.preventDefault();
     let data = new FormData();
     data.append("email", this.state.loginEmail);
@@ -29,11 +28,8 @@ class UnconnectedLogin extends Component {
       body: data,
       credentials: "include"
     });
-    console.log("response login", response);
     let responseBody = await response.text();
-    console.log("responseBody", responseBody);
     let body = JSON.parse(responseBody);
-    console.log("body login", body);
     if (!body.success) {
       this.setState({ loginEmail: "", loginPwd: "" });
       alert("Failed login, try again or sign up");

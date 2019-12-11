@@ -38,6 +38,11 @@ class UnconnectedApp extends Component {
   checklistPageRender = () => {
     return <Checklist />;
   };
+  checklistDescriptionPageRender = routerData => {
+    let checklistItem = routerData.match.params.item;
+    let itemDescription
+  };
+
   render = () => {
     return (
       <BrowserRouter>
@@ -55,6 +60,11 @@ class UnconnectedApp extends Component {
             exact={true}
             path="/checklist"
             render={this.checklistPageRender}
+          />
+          <Route
+            exact={true}
+            path="/checklist/description/:item"
+            render={this.checklistDescriptionPageRender}
           />
         </div>
       </BrowserRouter>

@@ -2,11 +2,10 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./main.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 
 class UnconnectedMainPage extends Component {
-  user = this.props.users.map(user => {
-    return <li>{user.username}</li>;
-  });
   render() {
     return (
       <div>
@@ -46,41 +45,30 @@ class UnconnectedMainPage extends Component {
           <Link className="checklist-link">
             <div>Fashion ideas for the big day</div>
             <div>
-              <img src="/uploads/dress.jpg" height="75px" />
+              <img src="/uploads/dress.png" height="75px" />
             </div>
           </Link>
         </div>
-
-        <div className="mainpage-carousel-conatiner">
+        <Carousel>
           <div>
-            <img
-              src="/uploads/mainpage-photo1.jpg"
-              height="600px"
-              max-width="1000px"
-            />
+            <img src="/uploads/mainpage-photo1.jpg" />
           </div>
           <div>
-            <img
-              src="/uploads/mainpage-photo2.jpg"
-              height="600px"
-              max-width="1000px"
-            />
+            <img src="/uploads/mainpage-photo2.jpg" />
           </div>
           <div>
-            <img
-              src="/uploads/mainpage-photo3.jpg"
-              height="600px"
-              max-width="1000px"
-            />
+            <img src="/uploads/mainpage-photo3.jpg" />
           </div>
           <div>
-            <img
-              src="/uploads/mainpage-photo4.jpg"
-              height="600px"
-              max-width="1000px"
-            />
+            <img src="/uploads/mainpage-photo4.jpg" />
           </div>
-        </div>
+          <div>
+            <img src="/uploads/mainpage-photo5.jpg" />
+          </div>
+          <div>
+            <img src="/uploads/mainpage-photo6.jpg" />
+          </div>
+        </Carousel>
       </div>
     );
   }

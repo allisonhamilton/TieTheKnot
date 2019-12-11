@@ -1,0 +1,43 @@
+let twelveMonthList = [
+  "Announce your engagement to all your family and friends",
+  "Plan an engagement party",
+  "Choose a location for the wedding",
+  "Find a venue",
+  "Schedule an engagement photo schoot",
+  "Start your guest list",
+  "Figure out your budget",
+  "Browse through our blogs for insipiration and ideas",
+  "Choose a theme and color scheme",
+  "Send your save the dates",
+  "Choose a caterer and reserve",
+  "Book your venue for the ceremony and the reception",
+  "Book a photographer and/or videographer",
+  "Start looking at wedding attire",
+  "Confirm your wedding party",
+  "Book DJ, band and/or musician"
+];
+let eightMonthList = [
+  "Decide on wedding attire",
+  "Make sure guests have a place to stay if travelling to wedding site",
+  "Choose a florist",
+  "Check the necessary laws on marriage and how to in your province, territory or state",
+  "Choose decorations for ceremony venue",
+  "Choose decorations for reception venue",
+  "Send invitations for guests",
+  "Research honeymoon destinations",
+  "Choose rings get them sized"
+];
+let fourMonthList = [
+  "Book an officiant",
+  "Make sure wedding party is dressed and fitted",
+  "Ensure decorations and venue needs are finalized (example: chairs, tables, tents, etc...)",
+  "Create and update registry if needed",
+  "Book bakery for cake",
+  "Finalize guest list",
+  "Finalize food menu and guest food choices",
+  "Start a seating chart",
+  "Book transportation for guests, if necessary",
+  "Book hair stylist and makeup artist",
+  "Book accomodations for wedding night",
+  "Book rehearsal dinner venue"
+];

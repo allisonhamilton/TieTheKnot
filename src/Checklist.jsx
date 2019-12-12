@@ -12,6 +12,21 @@ class UnconnectedChecklist extends Component {
       done: false
     };
   }
+  componentDidMount = async () => {
+    let response = await fetch("/checklistTwelve");
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
+    let userTasks = this.props.users.filter(user => {
+      return user.email === this.props.loggedIn;
+    });
+    let bodyTasks = body.tasks.filter(user => {
+      return user.userId === userTasks[0]._id;
+    });
+
+    if (body.success) {
+      this.props.dispatch({ type: "set-tasks-twelve", tasks: bodyTasks });
+    }
+  };
   addItemChange = event => {
     this.setState({ input: event.target.value });
   };
@@ -20,13 +35,13 @@ class UnconnectedChecklist extends Component {
   };
   addTaskSubmit = async event => {
     event.preventDefault();
-  
+
     let data = new FormData();
     data.append("email", this.props.loggedIn);
     data.append("task", this.state.input);
     data.append("dueDate", this.state.dueDate);
     data.append("done", this.state.done);
-    
+
     let response = await fetch("newTask", {
       method: "POST",
       body: data,
@@ -35,7 +50,7 @@ class UnconnectedChecklist extends Component {
 
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
-   
+
     if (!body.success) {
       alert("You're task has not been added, can you please try again?");
       return;
@@ -52,6 +67,7 @@ class UnconnectedChecklist extends Component {
       });
     }
   };
+
   render = () => {
     if (this.props.loggedIn === "") {
       return (
@@ -62,6 +78,7 @@ class UnconnectedChecklist extends Component {
       );
     }
     if (this.props.login) {
+      console.log("SHOW ME THE LIST", this.props.listTwelve);
       return (
         <div>
           <form onSubmit={this.addTaskSubmit}>
@@ -86,8 +103,8 @@ class UnconnectedChecklist extends Component {
 
           <div>
             <ul>
-              {this.props.allTasks.map(task => {
-                return <li>{task}</li>;
+              {this.props.listTwelve.map(tasks => {
+                <li>{tasks}</li>
               })}
             </ul>
           </div>
@@ -101,8 +118,11 @@ let mapStateToProps = state => {
   return {
     login: state.login,
     loggedIn: state.loggedIn,
-    allTasks: state.allTasks,
-    users: state.users
+    users: state.users,
+    listTwelve: state.listTwelve,
+    listEight: state.listEight,
+    listFour: state.listFour,
+    listOne: state.listOne
   };
 };
 

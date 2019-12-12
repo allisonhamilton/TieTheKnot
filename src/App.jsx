@@ -27,12 +27,11 @@ class UnconnectedApp extends Component {
   };
   profilePageRender = routerData => {
     let userId = routerData.match.params._id;
-   
+
     let user = this.props.users.find(user => {
-     
       return user._id === userId;
     });
-    
+
     return <Profile user={user} />;
   };
   checklistPageRender = () => {

@@ -9,16 +9,6 @@ class UnconnectedMainPage extends Component {
   render() {
     return (
       <div>
-        <div>
-          <ul>
-            {this.props.allTasks.map(task => {
-              return <li>{task}</li>;
-            })}
-          </ul>
-        </div>
-        <div>
-          <ul>{this.user}</ul>
-        </div>
         <div className="container-icon">
           <Link className="checklist-link" to="/checklist">
             <div className="mainpage-icon">

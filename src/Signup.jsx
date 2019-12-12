@@ -67,9 +67,11 @@ class UnconnectedSignup extends Component {
     }
     if (body.success) {
       console.log("????>>>>>>WHYYYYYYYYYYAHHH");
+      let newData = new FormData();
+      newData.append("email", this.state.email);
       let taskResponse = await fetch("/autoChecklist", {
         method: "POST",
-        body: data,
+        body: newData,
         credentials: "include"
       });
       console.log("taskResponse", taskResponse);
@@ -85,9 +87,9 @@ class UnconnectedSignup extends Component {
         this.props.dispatch({
           type: "login-success",
           login: true,
-          loggedIn: this.state.username
+          loggedIn: this.state.username,
+          allTasks: taskBody.allTasks
         });
-        this.props.dispatch({ type: "set.tasks", allTasks: body.allTasks });
         return;
       }
     }

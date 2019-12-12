@@ -48,6 +48,70 @@ app.get("/allusers", (req, res) => {
       res.send(JSON.stringify({ success: true, user: user }));
     });
 });
+app.get("/checklistTwelve", (req, res) => {
+  dbo
+    .collection("TasksAtTwelve")
+    .find({})
+    .toArray((err, tasks) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false
+          })
+        );
+        return;
+      }
+      res.send(JSON.stringify({ success: true, tasks: tasks }));
+    });
+});
+app.get("/checklistEight", (req, res) => {
+  dbo
+    .collection("TasksAtEight")
+    .find({})
+    .toArray((err, tasks) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false
+          })
+        );
+        return;
+      }
+      res.send(JSON.stringify({ success: true, tasks: tasks }));
+    });
+});
+app.get("/checklistFour", (req, res) => {
+  dbo
+    .collection("TasksAtFour")
+    .find({})
+    .toArray((err, tasks) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false
+          })
+        );
+        return;
+      }
+      res.send(JSON.stringify({ success: true, tasks: tasks }));
+    });
+});
+app.get("/checklistOneMonth", (req, res) => {
+  dbo
+    .collection("TasksOneMonth")
+    .find({})
+    .toArray((err, tasks) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false
+          })
+        );
+        return;
+      }
+      res.send(JSON.stringify({ success: true, tasks: tasks }));
+    });
+});
 
 app.post("/signup", upload.none(), (req, res) => {
   let name = req.body.username;
@@ -101,6 +165,7 @@ app.post("/autoChecklist", upload.none(), (req, res) => {
         })
       );
     }
+    console.log("emailz", user.email, email);
     if (user.email === email) {
       dbo.collection("TasksAtTwelve").insertMany([
         {
@@ -199,27 +264,198 @@ app.post("/autoChecklist", upload.none(), (req, res) => {
           userId: user._id,
           title: "Confirm your wedding party",
           done: false
-        },
-        (err, task) => {
-          if (err) {
-            res.send(
-              JSON.stringify({
-                success: false
-              })
-            );
-            return;
-          }
-          if (task.title !== null) {
-            res.send(JSON.stringify({ success: false }));
-            return;
-          }
-          console.log("?????what on earth is the task", task);
-          if (task.title === null) {
-            res.send(JSON.stringify({ success: true, allTasks: task }));
-            return;
-          }
         }
       ]);
+      dbo.collection("TasksAtEight").insertMany([
+        {
+          userId: user._id,
+          title: "Send your save the dates",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Decide on wedding attire",
+          done: false
+        },
+        {
+          userId: user._id,
+          title:
+            "Make sure guests have a place to stay if travelling to wedding site",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Choose a florist",
+          done: false
+        },
+        {
+          userId: user._id,
+          title:
+            "Check the necessary laws on marriage and how to in your province, territory or state",
+          done: false
+        },
+        {
+          userId: user._id,
+          title:
+            "Check the necessary laws on marriage and how to in your province, territory or state",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Choose decorations for ceremony venue",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Choose decorations for reception venue",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Research honeymoon destinations",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Choose rings get them sized",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Send invitations for guests",
+          done: false
+        }
+      ]);
+      dbo.collection("TasksAtFour").insertMany([
+        {
+          userId: user._id,
+          title: "Book an officiant",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Make sure wedding party is dressed and fitted",
+          done: false
+        },
+        {
+          userId: user._id,
+          title:
+            "Ensure decorations, table settings and seating for venue needs are finalized (example: chairs, tables, tents, etc...)",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Create and update registry if needed",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Book bakery for cake",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Finalize guest list",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Start a seating chart",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Book transportation for guests, if necessary",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Book hair stylist and makeup artist",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Book personal accomodations for wedding night",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Book rehearsal dinner venue",
+          done: false
+        }
+      ]);
+      dbo.collection("TasksOneMonth").insertMany([
+        {
+          userId: user._id,
+          title: "Buy gifts for wedding party",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Pick up rings",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Finalize hair stylist and make-up artist",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Write and finalize vows",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Confirm Florist",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Confirm DJ, band or musician",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Confirm bakery",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Confirm caterer",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Confirm officiant",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Last dress/attire fitting for wedding party",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Confirm rehearsal dinner",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Confirm seating chart",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Practice your first dance",
+          done: false
+        }
+      ]);
+      res.send(
+        JSON.stringify({
+          success: true
+        })
+      );
     }
     return;
   });
@@ -249,11 +485,6 @@ app.post("/login", upload.none(), (req, res) => {
       res.send(JSON.stringify({ success: true }));
       return;
     }
-    res.send(
-      JSON.stringify({
-        success: false
-      })
-    );
   });
 });
 app.post("/editUser", upload.single("img"), (req, res) => {

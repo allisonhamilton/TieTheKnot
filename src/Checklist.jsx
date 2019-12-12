@@ -20,22 +20,22 @@ class UnconnectedChecklist extends Component {
   };
   addTaskSubmit = async event => {
     event.preventDefault();
-    console.log("ADD A NEW TASK");
+  
     let data = new FormData();
     data.append("email", this.props.loggedIn);
     data.append("task", this.state.input);
     data.append("dueDate", this.state.dueDate);
     data.append("done", this.state.done);
-    console.log("data", data);
+    
     let response = await fetch("newTask", {
       method: "POST",
       body: data,
       credentials: "include"
     });
-    console.log("response", response);
+
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
-    console.log("body", body);
+   
     if (!body.success) {
       alert("You're task has not been added, can you please try again?");
       return;

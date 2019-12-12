@@ -58,7 +58,6 @@ class UnconnectedDashboard extends Component {
 }
 
 let mapStateToProps = state => {
-  console.log("STATE FOR DASHBOARD", state);
   return {
     login: state.login,
     users: state.users,

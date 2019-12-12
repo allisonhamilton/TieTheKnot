@@ -9,7 +9,13 @@ class UnconnectedMainPage extends Component {
   render() {
     return (
       <div>
-        <div>Your personal wedding planner</div>
+        <div>
+          <ul>
+            {this.props.allTasks.map(task => {
+              return <li>{task}</li>;
+            })}
+          </ul>
+        </div>
         <div>
           <ul>{this.user}</ul>
         </div>
@@ -76,7 +82,8 @@ class UnconnectedMainPage extends Component {
 
 let mapStateToProps = state => {
   return {
-    users: state.users
+    users: state.users,
+    allTasks: state.allTasks
   };
 };
 

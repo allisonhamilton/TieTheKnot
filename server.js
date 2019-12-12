@@ -44,13 +44,11 @@ app.get("/allusers", (req, res) => {
         );
         return;
       }
-      res.send(
-        JSON.stringify({
-          user
-        })
-      );
+
+      res.send(JSON.stringify({ success: true, user: user }));
     });
 });
+
 app.post("/signup", upload.none(), (req, res) => {
   let name = req.body.username;
   let pwd = req.body.password;
@@ -58,7 +56,7 @@ app.post("/signup", upload.none(), (req, res) => {
   let email = req.body.email;
   let who = req.body.who;
   let date = req.body.date;
-  dbo.collection("users").findOne({ username: name }, (err, user) => {
+  dbo.collection("users").findOne({ email: email }, (err, user) => {
     if (err) {
       res.send(JSON.stringify({ success: false }));
       return;
@@ -82,6 +80,147 @@ app.post("/signup", upload.none(), (req, res) => {
 
     res.cookie("sid", sessionId);
     res.send(JSON.stringify({ success: true }));
+    return;
+  });
+});
+
+app.post("/autoChecklist", upload.none(), (req, res) => {
+  let email = req.body.email;
+  dbo.collection("users").findOne({ email: email }, (err, user) => {
+    if (err) {
+      res.send(
+        JSON.stringify({
+          success: false
+        })
+      );
+    }
+    if (user === null) {
+      res.send(
+        JSON.stringify({
+          success: false
+        })
+      );
+    }
+    if (user.email === email) {
+      dbo.collection("TasksAtTwelve").insertMany([
+        {
+          userId: user._id,
+          title: "Announce your engagement to loved ones",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Plan an engagement party",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Choose a date",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Choose a location for the wedding",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Schedule an engagement photo shoot",
+          done: false
+        },
+
+        {
+          userId: user._id,
+          title: "Start your guest list, choose how many guests to invite",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Figure out a realistic budget",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Browse through our blogs for insipiration and ideas",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Choose a theme and color scheme",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Start looking at venues",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Start looking for caterers",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Start looking for a photographer/videographer",
+          done: false
+        },
+        {
+          userId: user._id,
+          title:
+            "Start looking for a DJ, band, musician for reception and ceremony",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Book your venue for the ceremony and the reception",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Book your caterer",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Book DJ, band and/or musician",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Make your guest list",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Start looking at wedding attire",
+          done: false
+        },
+        {
+          userId: user._id,
+          title: "Confirm your wedding party",
+          done: false
+        },
+        (err, task) => {
+          if (err) {
+            res.send(
+              JSON.stringify({
+                success: false
+              })
+            );
+            return;
+          }
+          if (task.title !== null) {
+            res.send(JSON.stringify({ success: false }));
+            return;
+          }
+          console.log("?????what on earth is the task", task);
+          if (task.title === null) {
+            res.send(JSON.stringify({ success: true, allTasks: task }));
+            return;
+          }
+        }
+      ]);
+    }
     return;
   });
 });
@@ -117,20 +256,20 @@ app.post("/login", upload.none(), (req, res) => {
     );
   });
 });
-app.post("/editUser", upload.single("img"), (res, req) => {
-  console.log("req.body.username", req.body.username);
+app.post("/editUser", upload.single("img"), (req, res) => {
   let username = req.body.username;
+  let email = req.body.email;
+  let sessionId = req.body.cookies;
+  dbo
+    .collection("users")
+    .updateOne({ email: email }, { $set: { username: username } });
 
-  db.users.findOneAndUpdate({
-    $set: {
-      username: username
-    }
-  });
+  sessions[sessionId] = email;
+  res.cookie("sid", sessionId);
   res.send(JSON.stringify({ success: true }));
   return;
 });
 app.post("/newTask", upload.none(), (req, res) => {
-  console.log("body", req.body);
   let userEmail = req.body.email;
   let task = req.body.task;
   let date = req.body.dueDate;
@@ -152,9 +291,9 @@ app.post("/newTask", upload.none(), (req, res) => {
         res.send(JSON.stringify({ success: false }));
         return;
       }
-      console.log("emails", userEmail, email);
-      if (email === userEmail) {
-        dbo.collections("checklists").insertOne({
+
+      if (email.email === userEmail) {
+        dbo.collection("checklists").insertOne({
           userId: email._id,
           title: task,
           date: date,

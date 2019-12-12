@@ -65,19 +65,34 @@ class UnconnectedSignup extends Component {
       alert("This username is taken, try another");
       return;
     }
-    {
-      alert("You have successfully signed up!");
-      this.setState({
-        redirect: true
+    if (body.success) {
+      console.log("????>>>>>>WHYYYYYYYYYYAHHH");
+      let taskResponse = await fetch("/autoChecklist", {
+        method: "POST",
+        body: data,
+        credentials: "include"
       });
-      this.props.dispatch({
-        type: "login-success",
-        login: true,
-        loggedIn: this.state.username
-      });
-      return;
+      console.log("taskResponse", taskResponse);
+      let taskResponseBody = await taskResponse.text();
+      console.log("taskResponseBody", taskResponseBody);
+      let taskBody = JSON.parse(taskResponseBody);
+      console.log("******taskBody", taskBody);
+      if (taskBody.success) {
+        alert("You have successfully signed up!");
+        this.setState({
+          redirect: true
+        });
+        this.props.dispatch({
+          type: "login-success",
+          login: true,
+          loggedIn: this.state.username
+        });
+        this.props.dispatch({ type: "set.tasks", allTasks: body.allTasks });
+        return;
+      }
     }
   };
+
   render = () => {
     if (this.state.redirect) return <Redirect to="/" />;
     return (

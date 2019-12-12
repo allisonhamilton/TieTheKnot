@@ -10,6 +10,9 @@ let reducer = (state, action) => {
   if (action.type === "set-users") {
     return { ...state, users: action.users };
   }
+  if (action.type === "set-tasks") {
+    return { ...state, allTasks: action.allTasks };
+  }
   if (action.type === "edit-profile") {
     return { ...state, toggleEditProfile: action.toggleEditProfile };
   }

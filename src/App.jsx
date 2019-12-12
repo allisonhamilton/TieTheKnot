@@ -27,12 +27,12 @@ class UnconnectedApp extends Component {
   };
   profilePageRender = routerData => {
     let userId = routerData.match.params._id;
-    console.log("what's going on users", this.props.users, userId);
+   
     let user = this.props.users.find(user => {
-      console.log("Another users console.log", user._id);
+     
       return user._id === userId;
     });
-    console.log("WHAT", user, userId);
+    
     return <Profile user={user} />;
   };
   checklistPageRender = () => {
@@ -40,7 +40,7 @@ class UnconnectedApp extends Component {
   };
   checklistDescriptionPageRender = routerData => {
     let checklistItem = routerData.match.params.item;
-    let itemDescription
+    let itemDescription;
   };
 
   render = () => {

@@ -11,12 +11,13 @@ class UnconnectedProfile extends Component {
     };
   }
   usernameOnChange = event => {
-    console.log("ON change", event.target.value, this.state.username);
     this.setState({ username: event.target.value });
   };
   editProfileSubmit = async () => {
     let data = new FormData();
+
     data.append("username", this.state.username);
+    data.append("email", this.props.loggedIn);
     let response = await fetch("/editUser", {
       method: "POST",
       body: data,
@@ -34,7 +35,7 @@ class UnconnectedProfile extends Component {
   editProfileClick = () => {
     this.props.dispatch({ type: "edit-profile", toggleEditProfile: true });
   };
-  render = () => {
+  loggedOut = () => {
     if (this.props.loggedIn === "") {
       return (
         <div>
@@ -43,10 +44,9 @@ class UnconnectedProfile extends Component {
         </div>
       );
     }
-    if (
-      this.props.loggedIn === this.props.user.email &&
-      !this.props.toggleEditProfile
-    ) {
+  };
+  render = () => {
+    if (!this.props.toggleEditProfile) {
       return (
         <div>
           <h3> {this.props.user.username}</h3>
@@ -56,27 +56,32 @@ class UnconnectedProfile extends Component {
         </div>
       );
     }
-    if (
-      this.props.loggedIn === this.props.user.email &&
-      this.props.toggleEditProfile
-    ) {
+    if (this.props.toggleEditProfile) {
       return (
         <div>
           <form onSubmit={this.editProfileSubmit}>
             <div>
-              Change your username
-              <input
-                type="text"
-                value={this.state.username}
-                onChange={this.usernameOnChange}
-              />
+              {this.props.user.username}, change your username:
+              <div>
+                <input
+                  type="text"
+                  placeholder="New Username"
+                  value={this.state.username}
+                  onChange={this.usernameOnChange}
+                />
+              </div>
             </div>
             <div>
-              Change your password
-              <input type="password" placeholder="New Password" />
+              Change your password:
+              <div>
+                <input type="password" placeholder="New Password" />
+              </div>
             </div>
             <div>
-              Change your photo <input type="file" />
+              Change your photo
+              <div>
+                <input type="file" />
+              </div>
             </div>
 
             <div>

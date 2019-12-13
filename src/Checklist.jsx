@@ -19,12 +19,48 @@ class UnconnectedChecklist extends Component {
     let userTasks = this.props.users.filter(user => {
       return user.email === this.props.loggedIn;
     });
+    console.log("USERTasks", userTasks[0]._id);
     let bodyTasks = body.tasks.filter(user => {
       return user.userId === userTasks[0]._id;
     });
-
     if (body.success) {
       this.props.dispatch({ type: "set-tasks-twelve", tasks: bodyTasks });
+    }
+    let newResponse = await fetch("/checklistEight");
+    let newResponseBody = await newResponse.text();
+    let newBody = JSON.parse(newResponseBody);
+    let newUserTasks = this.props.users.filter(user => {
+      return user.email === this.props.loggedIn;
+    });
+    let newBodyTasks = newBody.tasks.filter(user => {
+      return user.userId === newUserTasks[0]._id;
+    });
+    if (newBody.success) {
+      this.props.dispatch({ type: "set-tasks-eight", tasks: newBodyTasks });
+    }
+    let newNewResponse = await fetch("/checklistFour");
+    let newNewResponseBody = await newNewResponse.text();
+    let newNewBody = JSON.parse(newNewResponseBody);
+    let newNewUserTasks = this.props.users.filter(user => {
+      return user.email === this.props.loggedIn;
+    });
+    let newNewBodyTasks = newNewbody.tasks.filter(user => {
+      return user.userId === newNewuserTasks[0]._id;
+    });
+    if (newNewBody.success) {
+      this.props.dispatch({ type: "set-tasks-four", tasks: newNewBodyTasks });
+    }
+    let oneResponse = await fetch("/checklistOne");
+    let oneResponseBody = await oneResponse.text();
+    let oneBody = JSON.parse(oneResponseBody);
+    let oneUserTasks = this.props.users.filter(user => {
+      return user.email === this.props.loggedIn;
+    });
+    let oneBodyTasks = oneBody.tasks.filter(user => {
+      return user.userId === oneUserTasks[0]._id;
+    });
+    if (oneBody.success) {
+      this.props.dispatch({ type: "set-tasks-one", tasks: oneBodyTasks });
     }
   };
   addItemChange = event => {
@@ -102,11 +138,24 @@ class UnconnectedChecklist extends Component {
           </form>
 
           <div>
-            <ul>
-              {this.props.listTwelve.map(tasks => {
-                <li>{tasks}</li>
-              })}
-            </ul>
+            {this.props.listTwelve.map(tasks => {
+              return <button>{tasks}</button>;
+            })}
+          </div>
+          <div>
+            {this.props.listEight.map(tasks => {
+              return <button>{tasks}</button>;
+            })}
+          </div>
+          <div>
+            {this.props.listFour.map(tasks => {
+              return <button>{tasks}</button>;
+            })}
+          </div>
+          <div>
+            {this.props.listOne.map(tasks => {
+              return <button>{tasks}</button>;
+            })}
           </div>
         </div>
       );
@@ -115,6 +164,7 @@ class UnconnectedChecklist extends Component {
 }
 
 let mapStateToProps = state => {
+  console.log("CHECKLIST STATTEEE", state);
   return {
     login: state.login,
     loggedIn: state.loggedIn,

@@ -165,7 +165,6 @@ app.post("/autoChecklist", upload.none(), (req, res) => {
         })
       );
     }
-    console.log("emailz", user.email, email);
     if (user.email === email) {
       dbo.collection("TasksAtTwelve").insertMany([
         {
@@ -523,11 +522,46 @@ app.post("/newTask", upload.none(), (req, res) => {
         return;
       }
 
-      if (email.email === userEmail) {
-        dbo.collection("checklists").insertOne({
+      if (
+        email.email === userEmail &&
+        req.body.dueDate === "8 to 12 months before"
+      ) {
+        dbo.collection("TasksAtTwelve").insertOne({
           userId: email._id,
           title: task,
-          date: date,
+          done: done
+        });
+        res.send(JSON.stringify({ success: true }));
+        return;
+      }
+      if (
+        email.email === userEmail &&
+        req.body.dueDate === "4 to 8 months before"
+      ) {
+        dbo.collection("TasksAtEight").insertOne({
+          userId: email._id,
+          title: task,
+          done: done
+        });
+        res.send(JSON.stringify({ success: true }));
+        return;
+      }
+      if (
+        email.email === userEmail &&
+        req.body.dueDate === "1 to 4 months before"
+      ) {
+        dbo.collection("TasksAtFour").insertOne({
+          userId: email._id,
+          title: task,
+          done: done
+        });
+        res.send(JSON.stringify({ success: true }));
+        return;
+      }
+      if (email.email === userEmail && req.body.dueDate === "1 months left") {
+        dbo.collection("TasksAtOne").insertOne({
+          userId: email._id,
+          title: task,
           done: done
         });
         res.send(JSON.stringify({ success: true }));

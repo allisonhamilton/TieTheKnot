@@ -21,7 +21,7 @@ class UnconnectedDashboard extends Component {
       return user.email === this.props.loggedIn;
     });
     let userId = user._id;
-    console.log("USERIDD WORK ALREADY", userId);
+
     return (
       <div className="dashboard-right">
         <Link to={"/profile/" + userId} className="dashboard-link">
@@ -59,7 +59,6 @@ class UnconnectedDashboard extends Component {
 }
 
 let mapStateToProps = state => {
-  console.log("DASHBOARRRD WORK", state.users);
   return {
     login: state.login,
     users: state.users,

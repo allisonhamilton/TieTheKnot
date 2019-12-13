@@ -12,56 +12,59 @@ class UnconnectedChecklist extends Component {
       done: false
     };
   }
-  componentDidMount = async () => {
-    let response = await fetch("/checklistTwelve");
-    let responseBody = await response.text();
-    let body = JSON.parse(responseBody);
-    let userTasks = this.props.users.filter(user => {
-      return user.email === this.props.loggedIn;
-    });
-    console.log("USERTasks", userTasks[0]._id);
-    let bodyTasks = body.tasks.filter(user => {
-      return user.userId === userTasks[0]._id;
-    });
-    if (body.success) {
-      this.props.dispatch({ type: "set-tasks-twelve", tasks: bodyTasks });
-    }
-    let newResponse = await fetch("/checklistEight");
-    let newResponseBody = await newResponse.text();
-    let newBody = JSON.parse(newResponseBody);
-    let newUserTasks = this.props.users.filter(user => {
-      return user.email === this.props.loggedIn;
-    });
-    let newBodyTasks = newBody.tasks.filter(user => {
-      return user.userId === newUserTasks[0]._id;
-    });
-    if (newBody.success) {
-      this.props.dispatch({ type: "set-tasks-eight", tasks: newBodyTasks });
-    }
-    let newNewResponse = await fetch("/checklistFour");
-    let newNewResponseBody = await newNewResponse.text();
-    let newNewBody = JSON.parse(newNewResponseBody);
-    let newNewUserTasks = this.props.users.filter(user => {
-      return user.email === this.props.loggedIn;
-    });
-    let newNewBodyTasks = newNewbody.tasks.filter(user => {
-      return user.userId === newNewuserTasks[0]._id;
-    });
-    if (newNewBody.success) {
-      this.props.dispatch({ type: "set-tasks-four", tasks: newNewBodyTasks });
-    }
-    let oneResponse = await fetch("/checklistOne");
-    let oneResponseBody = await oneResponse.text();
-    let oneBody = JSON.parse(oneResponseBody);
-    let oneUserTasks = this.props.users.filter(user => {
-      return user.email === this.props.loggedIn;
-    });
-    let oneBodyTasks = oneBody.tasks.filter(user => {
-      return user.userId === oneUserTasks[0]._id;
-    });
-    if (oneBody.success) {
-      this.props.dispatch({ type: "set-tasks-one", tasks: oneBodyTasks });
-    }
+  componentDidMount = () => {
+    let updateTasks = async () => {
+      let response = await fetch("/checklistTwelve");
+      let responseBody = await response.text();
+      let body = JSON.parse(responseBody);
+      let userTasks = this.props.users.filter(user => {
+        return user.email === this.props.loggedIn;
+      });
+
+      let bodyTasks = body.tasks.filter(user => {
+        return user.userId === userTasks[0]._id;
+      });
+      if (body.success) {
+        this.props.dispatch({ type: "set-tasks-twelve", tasks: bodyTasks });
+      }
+      let newResponse = await fetch("/checklistEight");
+      let newResponseBody = await newResponse.text();
+      let newBody = JSON.parse(newResponseBody);
+      let newUserTasks = this.props.users.filter(user => {
+        return user.email === this.props.loggedIn;
+      });
+      let newBodyTasks = newBody.tasks.filter(user => {
+        return user.userId === newUserTasks[0]._id;
+      });
+      if (newBody.success) {
+        this.props.dispatch({ type: "set-tasks-eight", tasks: newBodyTasks });
+      }
+      let fourResponse = await fetch("/checklistFour");
+      let fourResponseBody = await fourResponse.text();
+      let fourBody = JSON.parse(fourResponseBody);
+      let fourUserTasks = this.props.users.filter(user => {
+        return user.email === this.props.loggedIn;
+      });
+      let fourBodyTasks = fourBody.tasks.filter(user => {
+        return user.userId === fourUserTasks[0]._id;
+      });
+      if (fourBody.success) {
+        this.props.dispatch({ type: "set-tasks-four", tasks: fourBodyTasks });
+      }
+      let oneResponse = await fetch("/checklistOneMonth");
+      let oneResponseBody = await oneResponse.text();
+      let oneBody = JSON.parse(oneResponseBody);
+      let oneUserTasks = this.props.users.filter(user => {
+        return user.email === this.props.loggedIn;
+      });
+      let oneBodyTasks = oneBody.tasks.filter(user => {
+        return user.userId === oneUserTasks[0]._id;
+      });
+      if (oneBody.success) {
+        this.props.dispatch({ type: "set-tasks-one", tasks: oneBodyTasks });
+      }
+    };
+    let myInterval = setInterval(updateTasks, 3000);
   };
   addItemChange = event => {
     this.setState({ input: event.target.value });
@@ -104,6 +107,33 @@ class UnconnectedChecklist extends Component {
     }
   };
 
+  removeTaskTwelve = async index => {
+    console.log("Is delete working??");
+    let deleted = this.props.listTwelve.filter((ele, i) => {
+      return i !== index;
+    });
+    console.log("DELETEDDD", deleted);
+    let response = fetch("/deletedList")
+    this.props.dispatch({ type: "deleteTaskTwelve", deleted: deleted });
+  };
+  removeTaskEight = async index => {
+    let deleted = this.props.listEight.filter((ele, i) => {
+      return i !== index;
+    });
+    this.props.dispatch({ type: "deleteTaskEight", deleted: deleted });
+  };
+  removeTaskFour = async index => {
+    let deleted = this.props.listFour.filter((ele, i) => {
+      return i !== index;
+    });
+    this.props.dispatch({ type: "deleteTaskFour", deleted: deleted });
+  };
+  removeTaskOne = async index => {
+    let deleted = this.props.listOne.filter((ele, i) => {
+      return i !== index;
+    });
+    this.props.dispatch({ type: "deleteTaskOne", deleted: deleted });
+  };
   render = () => {
     if (this.props.loggedIn === "") {
       return (
@@ -114,7 +144,6 @@ class UnconnectedChecklist extends Component {
       );
     }
     if (this.props.login) {
-      console.log("SHOW ME THE LIST", this.props.listTwelve);
       return (
         <div>
           <form onSubmit={this.addTaskSubmit}>
@@ -138,24 +167,104 @@ class UnconnectedChecklist extends Component {
           </form>
 
           <div>
-            {this.props.listTwelve.map(tasks => {
-              return <button>{tasks}</button>;
-            })}
+            <h4>What you should do from 8 months to 12 months ahead</h4>
+            <ul>
+              {this.props.listTwelve.map((tasks, index) => {
+                return (
+                  <li>
+                    {tasks.title}
+                    <form
+                      onSubmit={t => {
+                        t.preventDefault();
+                        this.removeTaskTwelve(index);
+                      }}
+                    >
+                      <input
+                        type="image"
+                        src="/uploads/garbagebin.png"
+                        alt="submit"
+                        height="20px"
+                      />
+                    </form>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
           <div>
-            {this.props.listEight.map(tasks => {
-              return <button>{tasks}</button>;
-            })}
+            <h4>What you should do from 4 to 8 months ahead</h4>
+            <ul>
+              {this.props.listEight.map((tasks, index) => {
+                return (
+                  <li>
+                    {tasks.title}
+                    <form
+                      onSubmit={t => {
+                        t.preventDefault();
+                        this.removeTaskEight(index);
+                      }}
+                    >
+                      <input
+                        type="image"
+                        src="/uploads/garbagebin.png"
+                        alt="submit"
+                        height="20px"
+                      />
+                    </form>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
           <div>
-            {this.props.listFour.map(tasks => {
-              return <button>{tasks}</button>;
-            })}
+            <h4>What you should do 1 to 4 months before</h4>
+            <ul>
+              {this.props.listFour.map((tasks, index) => {
+                return (
+                  <li>
+                    {tasks.title}
+                    <form
+                      onClick={t => {
+                        t.preventDefault();
+                        this.removeTaskFour(index);
+                      }}
+                    >
+                      <input
+                        type="image"
+                        alt="submit"
+                        src="/uploads/garbagebin.png"
+                        height="20px"
+                      />
+                    </form>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
           <div>
-            {this.props.listOne.map(tasks => {
-              return <button>{tasks}</button>;
-            })}
+            <h4>What you should be doing within 1 month of your wedding</h4>
+            <ul>
+              {this.props.listOne.map((tasks, index) => {
+                return (
+                  <li>
+                    {tasks.title}
+                    <form
+                      onClick={t => {
+                        t.preventDefault();
+                        this.removeTaskOne(index);
+                      }}
+                    >
+                      <input
+                        type="image"
+                        alt="submit"
+                        src="/uploads/garbagebin.png"
+                        height="20px"
+                      />
+                    </form>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
       );
@@ -164,7 +273,6 @@ class UnconnectedChecklist extends Component {
 }
 
 let mapStateToProps = state => {
-  console.log("CHECKLIST STATTEEE", state);
   return {
     login: state.login,
     loggedIn: state.loggedIn,

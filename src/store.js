@@ -28,6 +28,18 @@ let reducer = (state, action) => {
   if (action.type === "add-task") {
     return { ...state, newTaskAdded: true };
   }
+  if (action.type === "deleteTaskEight") {
+    return { ...state, listEight: action.deleted };
+  }
+  if (action.type === "deleteTaskFour") {
+    return { ...state, listFour: action.deleted };
+  }
+  if (action.type === "deleteTaskOne") {
+    return { ...state, listOne: action.deleted };
+  }
+  if (action.type === "deleteTaskTwelve") {
+    return { ...state, listTwelve: action.deleted };
+  }
   return state;
 };
 

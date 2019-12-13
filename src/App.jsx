@@ -72,7 +72,6 @@ class UnconnectedApp extends Component {
 }
 
 let mapStateToProps = state => {
-  console.log("state in app", state);
   return {
     users: state.users,
     loggedIn: state.loggedIn,

@@ -64,7 +64,7 @@ class UnconnectedChecklist extends Component {
         this.props.dispatch({ type: "set-tasks-one", tasks: oneBodyTasks });
       }
     };
-    let myInterval = setInterval(updateTasks, 3000);
+    let myInterval = setInterval(updateTasks, 300);
   };
   addItemChange = event => {
     this.setState({ input: event.target.value });
@@ -108,13 +108,25 @@ class UnconnectedChecklist extends Component {
   };
 
   removeTaskTwelve = async index => {
-    console.log("Is delete working??");
-    let deleted = this.props.listTwelve.filter((ele, i) => {
-      return i !== index;
+    console.log("Is delete working??", index);
+    let task = this.props.listTwelve.filter((ele, i) => {
+      console.log("why??????", ele, i);
+      return i === index;
     });
-    console.log("DELETEDDD", deleted);
-    let response = fetch("/deletedList")
-    this.props.dispatch({ type: "deleteTaskTwelve", deleted: deleted });
+    console.log("DELETEDDD", task);
+    let data = new FormData();
+    data.append("task", task[0].title);
+    let response = await fetch("/deleteInTwelve", {
+      method: "POST",
+      body: data,
+      credentials: "include"
+    });
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
+    if (!body.success) {
+      alert("Your task hasn't been deleted, please try again!");
+    }
+    alert("This task has been deleted from your checklist!");
   };
   removeTaskEight = async index => {
     let deleted = this.props.listEight.filter((ele, i) => {
@@ -172,12 +184,18 @@ class UnconnectedChecklist extends Component {
               {this.props.listTwelve.map((tasks, index) => {
                 return (
                   <li>
-                    {tasks.title}
+                    <Link
+                      className="link-twelveList"
+                      to={"/checklist/description/" + tasks._id}
+                    >
+                      {tasks.title}
+                    </Link>
                     <form
                       onSubmit={t => {
                         t.preventDefault();
                         this.removeTaskTwelve(index);
                       }}
+                      className="bin-icon"
                     >
                       <input
                         type="image"
@@ -197,12 +215,19 @@ class UnconnectedChecklist extends Component {
               {this.props.listEight.map((tasks, index) => {
                 return (
                   <li>
-                    {tasks.title}
+                    {" "}
+                    <Link
+                      className="link-eightList"
+                      to={"/checklist/description/" + tasks._id}
+                    >
+                      {tasks.title}
+                    </Link>
                     <form
                       onSubmit={t => {
                         t.preventDefault();
                         this.removeTaskEight(index);
                       }}
+                      className="bin-icon"
                     >
                       <input
                         type="image"
@@ -222,12 +247,18 @@ class UnconnectedChecklist extends Component {
               {this.props.listFour.map((tasks, index) => {
                 return (
                   <li>
-                    {tasks.title}
+                    <Link
+                      className="link-eightList"
+                      to={"/checklist/description/" + tasks._id}
+                    >
+                      {tasks.title}
+                    </Link>
                     <form
                       onClick={t => {
                         t.preventDefault();
                         this.removeTaskFour(index);
                       }}
+                      className="bin-icon"
                     >
                       <input
                         type="image"
@@ -247,12 +278,19 @@ class UnconnectedChecklist extends Component {
               {this.props.listOne.map((tasks, index) => {
                 return (
                   <li>
-                    {tasks.title}
+                    {" "}
+                    <Link
+                      className="link-eightList"
+                      to={"/checklist/description/" + tasks._id}
+                    >
+                      {tasks.title}
+                    </Link>
                     <form
                       onClick={t => {
                         t.preventDefault();
                         this.removeTaskOne(index);
                       }}
+                      className="bin-icon"
                     >
                       <input
                         type="image"
@@ -273,6 +311,7 @@ class UnconnectedChecklist extends Component {
 }
 
 let mapStateToProps = state => {
+  console.log("checlist state", state.listOne);
   return {
     login: state.login,
     loggedIn: state.loggedIn,

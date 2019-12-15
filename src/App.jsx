@@ -7,14 +7,18 @@ import MainPage from "./MainPage.jsx";
 import Dashboard from "./Dashboard.jsx";
 import Profile from "./Profile.jsx";
 import Checklist from "./Checklist.jsx";
+import TaskDescription from "./TaskDescription.jsx";
 import "./app.css";
 
 class UnconnectedApp extends Component {
-  componentDidMount = async () => {
-    let response = await fetch("/allusers");
-    let responseBody = await response.text();
-    let body = JSON.parse(responseBody);
-    this.props.dispatch({ type: "set-users", users: body.user });
+  componentDidMount = () => {
+    let updateUsers = async () => {
+      let response = await fetch("/allusers");
+      let responseBody = await response.text();
+      let body = JSON.parse(responseBody);
+      this.props.dispatch({ type: "set-users", users: body.user });
+    };
+    let myInterval = setInterval(updateUsers, 500);
   };
   mainPageRender = () => {
     return <MainPage />;
@@ -39,7 +43,9 @@ class UnconnectedApp extends Component {
   };
   checklistDescriptionPageRender = routerData => {
     let checklistItem = routerData.match.params.item;
-    let itemDescription;
+    console.log("whats this checklist item", checklistItem); //item id
+
+    return <TaskDescription />;
   };
 
   render = () => {

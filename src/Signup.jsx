@@ -3,7 +3,14 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import "./signup.css";
 
-const countries = new Array("", "Canada", "United Kingdom", "USA", "other");
+const countries = new Array(
+  "",
+  "Canada",
+  "United Kingdom",
+  "USA",
+  "France",
+  "Other"
+);
 
 class UnconnectedSignup extends Component {
   constructor(props) {
@@ -87,8 +94,7 @@ class UnconnectedSignup extends Component {
         this.props.dispatch({
           type: "login-success",
           login: true,
-          loggedIn: this.state.username,
-          allTasks: taskBody.allTasks
+          loggedIn: this.state.email
         });
         return;
       }
@@ -96,7 +102,10 @@ class UnconnectedSignup extends Component {
   };
 
   render = () => {
-    if (this.state.redirect) return <Redirect to="/" />;
+    console.log("redirect state", this.state.redirect);
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="container-signup">
         <div className="form-signup">

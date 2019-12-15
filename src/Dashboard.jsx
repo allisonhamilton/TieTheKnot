@@ -20,11 +20,9 @@ class UnconnectedDashboard extends Component {
     let user = this.props.users.find(user => {
       return user.email === this.props.loggedIn;
     });
-    let userId = user._id;
-
     return (
       <div className="dashboard-right">
-        <Link to={"/profile/" + userId} className="dashboard-link">
+        <Link to={"/profile/" + user._id} className="dashboard-link">
           My profile
         </Link>
         <div onClick={this.ifLoggedOut}>

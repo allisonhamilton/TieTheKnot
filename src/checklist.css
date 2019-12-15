@@ -2,33 +2,55 @@
   display: list-item;
   list-style-type: none;
 }
-
-.container-listitem-twelve {
-  display: list-item;
-  width: 600px;
-  list-style-position: inside;
-}
-
-.container-listitem-eight {
-  display: list-item;
-  width: 600px;
-  list-style-position: inside;
-}
-
-.container-listitem-four {
-  display: list-item;
-  width: 600px;
-  list-style-position: inside;
-}
-
 .checklist-task-item {
   border: solid 1px;
   padding: 15px;
   position: relative;
 }
+.link-twelveList {
+  font-family: "Playfair Display", serif;
+  color: #4c5c87;
+  font-size: 15px;
+  text-decoration: none;
+}
 
+.link-eightList {
+  font-family: "Playfair Display", serif;
+  color: #4c5c87;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.link-fourList {
+  font-family: "Playfair Display", serif;
+  color: #4c5c87;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.link-oneList {
+  font-family: "Playfair Display", serif;
+  color: #4c5c87;
+  font-size: 15px;
+  text-decoration: none;
+}
+ul :hover {
+  color: #1d4d4f;
+}
 li {
   list-style-type: none;
-  padding: 0.3em 0 1em 40px;
-  background-image: url(/uploads/check-icon.png) no-repeat;
+  display: flex;
+  border: solid 1px;
+  padding: 10px;
+  width: 600px;
+}
+.bin-icon :hover {
+  border: solid 1px;
+  border-color: #1d4d4f;
+  padding: 10px 15px;
+  position: relative;
+}
+.bin-icon {
+  position: absolute;
+  right: 80px;
 }

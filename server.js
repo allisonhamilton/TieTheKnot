@@ -98,7 +98,7 @@ app.get("/checklistFour", (req, res) => {
 });
 app.get("/checklistOneMonth", (req, res) => {
   dbo
-    .collection("TasksOneMonth")
+    .collection("TasksAtOne")
     .find({})
     .toArray((err, tasks) => {
       if (err) {
@@ -113,7 +113,7 @@ app.get("/checklistOneMonth", (req, res) => {
     });
 });
 
-app.post("/signup", upload.none(), (req, res) => {
+app.post("/signup", upload.none(), (req, res) => { 
   let name = req.body.username;
   let pwd = req.body.password;
   let country = req.body.country;
@@ -148,6 +148,11 @@ app.post("/signup", upload.none(), (req, res) => {
   });
 });
 
+app.post("/deleteInTwelve", upload.none(), (req, res) => {
+  console.log("req.body.task", req.body.task);
+  let task = req.body.task;
+  dbo.collection("TasksAtTwelve").deleteOne({ title: task });
+});
 app.post("/autoChecklist", upload.none(), (req, res) => {
   let email = req.body.email;
   dbo.collection("users").findOne({ email: email }, (err, user) => {
@@ -383,7 +388,7 @@ app.post("/autoChecklist", upload.none(), (req, res) => {
           done: false
         }
       ]);
-      dbo.collection("TasksOneMonth").insertMany([
+      dbo.collection("TasksAtOne").insertMany([
         {
           userId: user._id,
           title: "Buy gifts for wedding party",

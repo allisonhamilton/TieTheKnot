@@ -46,7 +46,9 @@ class UnconnectedLogin extends Component {
     }
   };
   render = () => {
-    if (this.state.redirect) return <Redirect to="/" />;
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="login-box">
         <img src="/uploads/login-pic.jpg" className="login-pic" />

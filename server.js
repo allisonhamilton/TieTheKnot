@@ -113,13 +113,14 @@ app.get("/checklistOneMonth", (req, res) => {
     });
 });
 
-app.post("/signup", upload.none(), (req, res) => { 
+app.post("/signup", upload.none(), (req, res) => {
   let name = req.body.username;
   let pwd = req.body.password;
   let country = req.body.country;
   let email = req.body.email;
   let who = req.body.who;
   let date = req.body.date;
+  let image = req.body.image;
   dbo.collection("users").findOne({ email: email }, (err, user) => {
     if (err) {
       res.send(JSON.stringify({ success: false }));
@@ -136,7 +137,8 @@ app.post("/signup", upload.none(), (req, res) => {
         country: country,
         email: email,
         who: who,
-        date: date
+        date: date,
+        image: image
       });
     }
     let sessionId = generateId();

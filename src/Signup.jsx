@@ -21,6 +21,7 @@ class UnconnectedSignup extends Component {
       country: countries[0],
       email: "",
       weddingDate: undefined,
+      image: undefined,
       who: "",
       redirect: false
     };
@@ -41,17 +42,40 @@ class UnconnectedSignup extends Component {
     this.setState({ weddingDate: event.target.value });
   };
   whoOnChange = event => {
-    this.setState({ who: event.target.value });
+    console.log("event.target.value who????????", event.target.value);
+    if (event.target.value === "Bride" || event.target.value === "Groom") {
+      this.setState({
+        who: event.target.value,
+        image: "/uploads/bride-groom.png"
+      });
+    }
+    if (event.target.value === "Relative" || event.target.value === "Guest") {
+      this.setState({
+        who: event.target.value,
+        image: "/uploads/guest.png"
+      });
+    }
+    if (
+      event.target.value === "Professional" ||
+      event.target.value === "Other"
+    ) {
+      this.setState({
+        who: event.target.value,
+        image: "/uploads/wedding-planner.png"
+      });
+    }
   };
   onSubmitHandler = async event => {
     event.preventDefault();
     let data = new FormData();
+    console.log("STATE IMAGEEEEZZZZZZZZ", this.state.image);
     data.append("username", this.state.username);
     data.append("password", this.state.password);
     data.append("country", this.state.country);
     data.append("email", this.state.email);
     data.append("date", this.state.weddingDate);
     data.append("who", this.state.who);
+    data.append("image", this.state.image);
     let response = await fetch("/signup", {
       method: "POST",
       body: data,
@@ -67,7 +91,8 @@ class UnconnectedSignup extends Component {
         country: "",
         email: "",
         weddingDate: undefined,
-        who: ""
+        who: "",
+        image: undefined
       });
       alert("This username is taken, try another");
       return;

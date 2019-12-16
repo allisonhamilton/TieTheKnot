@@ -7,7 +7,10 @@ class UnconnectedProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ""
+      username: "",
+      password: "",
+      image: undefined,
+      date: undefined
     };
   }
   usernameOnChange = event => {
@@ -18,6 +21,9 @@ class UnconnectedProfile extends Component {
 
     data.append("username", this.state.username);
     data.append("email", this.props.loggedIn);
+    data.append("password", this.state.password);
+    data.append("date", this.state.date);
+    data.append("image", this.state.image);
     let response = await fetch("/editUser", {
       method: "POST",
       body: data,
@@ -35,6 +41,16 @@ class UnconnectedProfile extends Component {
   editProfileClick = () => {
     this.props.dispatch({ type: "edit-profile", toggleEditProfile: true });
   };
+
+  imageOnChange = event => {
+    this.setState({ image: event.target.files[0] });
+  };
+  passwordOnChange = event => {
+    this.setState({ password: event.target.value });
+  };
+  dateOnChange = event => {
+    this.setState({ date: event.target.value });
+  };
   loggedOut = () => {
     if (this.props.loggedIn === "") {
       return (
@@ -46,12 +62,17 @@ class UnconnectedProfile extends Component {
     }
   };
   render = () => {
+    console.log("RENDER PROFILE", this.props.user);
     if (!this.props.toggleEditProfile) {
       return (
-        <div>
+        <div className="profile-container">
+          <div>
+            <img src={this.props.user.image} className="profile-img" />
+          </div>
           <h3> {this.props.user.username}</h3>
           <div> {this.props.user.who}</div>
           <div>{this.props.user.country}</div>
+
           <button onClick={this.editProfileClick}>Edit</button>
         </div>
       );
@@ -59,7 +80,10 @@ class UnconnectedProfile extends Component {
     if (this.props.toggleEditProfile) {
       return (
         <div>
-          <form onSubmit={this.editProfileSubmit}>
+          <div>
+            <img className="profile-img" src={this.props.user.image} />
+          </div>
+          <form onSubmit={this.editProfileSubmit} className="profile-container">
             <div>
               {this.props.user.username}, change your username:
               <div>
@@ -74,13 +98,22 @@ class UnconnectedProfile extends Component {
             <div>
               Change your password:
               <div>
-                <input type="password" placeholder="New Password" />
+                <input
+                  type="password"
+                  placeholder="New Password"
+                  value={this.state.password}
+                  onChange={this.passwordOnChange}
+                />
               </div>
             </div>
             <div>
-              Change your photo
+              Change your profile photo
               <div>
-                <input type="file" />
+                <input type="file" onChange={this.imageOnChange} />
+              </div>
+              <div>
+                Add a wedding date if you haven't already:
+                <input type="date" onChange={this.dateOnChange} />
               </div>
             </div>
 

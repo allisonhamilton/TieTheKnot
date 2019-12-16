@@ -48,7 +48,7 @@ li {
   border: solid 1px;
   border-color: #1d4d4f;
   padding: 10px 15px;
-  position: relative;
+  position: absolute;
 }
 .bin-icon {
   position: absolute;

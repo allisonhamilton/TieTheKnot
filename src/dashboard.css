@@ -1,5 +1,6 @@
 .container-dashboard {
-  background-color: white;
+  background-color: #1d4d4f;
+  color: white;
   height: 125px;
 }
 
@@ -17,11 +18,12 @@ logo-image {
   max-width: 250px;
 }
 .name {
-  font-family: "Hammersmith One";
+  font-family: "Playfair Display", serif;
+  font-style: italic;
   font-weight: bold;
   margin-top: 12px;
   font-size: xx-large;
-  color: #3f4d71;
+  color: white;
   position: relative;
   left: -10px;
 }
@@ -31,7 +33,16 @@ logo-image {
   margin: 10px;
   font-family: "Playfair Display", serif;
   font-style: italic;
-  color: #4c5c87;
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+}
+.dashboard-btn-logout {
+  background-color: #1d4d4f;
+  border: none;
+  color: white;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
   font-size: 16px;
   text-decoration: none;
 }

@@ -17,25 +17,49 @@ class UnconnectedDashboard extends Component {
     );
   };
   ifLoggedIn = () => {
-    let user = this.props.users.find(user => {
+    let userLogin = this.props.users.filter((user, i) => {
+      console.log(">>>>>>>>>>>>>>>", user, this.props.loggedIn);
       return user.email === this.props.loggedIn;
     });
+    console.log("USER WORKKKKK:::::::::", userLogin, this.props.users);
+
+    if (userLogin.length === 0) {
+      return;
+    }
     return (
       <div className="dashboard-right">
-        <Link to={"/profile/" + user._id} className="dashboard-link">
+        <Link to={"/profile/" + userLogin[0]._id} className="dashboard-link">
           My profile
         </Link>
-        <div onClick={this.ifLoggedOut}>
-          <Link to="/" className="dashboard-link">
+        <div>
+          <button className="dashboard-btn-logout" onClick={this.logoutHandler}>
             Log out
-          </Link>
+          </button>
         </div>
       </div>
     );
   };
-  logoutHandler = () => {
-    fetch("/logout", { method: "POST", body: "", credentials: "include" });
-    this.props.dispatch({ type: "logout-success", loggedIn: "" });
+  logoutHandler = async () => {
+    // let response = await fetch("/logout", {
+    //   method: "POST",
+    //   body: "",
+    //   credentials: "include"
+    // });
+    // console.log("LOGOUTTTT response", response);
+    // let responseBody = await response.text();
+    // console.log("LOGOUTTTT responseBody", responseBody);
+    // let body = JSON.parse(responseBody);
+    // console.log("LOGOUTTTT body", body);
+    // if (!body.success) {
+    //   alert("Try logging out again");
+    //   return;
+    // }
+    this.props.dispatch({
+      type: "logout-success",
+      loggedIn: "",
+      login: false
+    });
+    this.ifNotLoggedIn();
     alert("You have successfully logged out");
   };
 

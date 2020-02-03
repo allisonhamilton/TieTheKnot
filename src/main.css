@@ -1,6 +1,5 @@
 body {
   background-color: #bbb;
-  margin: 0;
 }
 
 .overlay {
@@ -35,11 +34,7 @@ body {
   display: flex;
   justify-content: space-between;
 }
-.mainpage-carousel-conatiner {
-  max-width: 1000px;
+.mainpage-carousel-container {
+  width: 800px;
   position: relative;
-  margin: auto;
-}
-.slide-picture {
-    
 }

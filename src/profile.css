@@ -5,8 +5,32 @@
   border-radius: 80px 80px 80px 80px;
 }
 .profile-container {
+  margin-top: 50px;
   padding-left: 500px;
   box-sizing: border-box;
   width: 800px;
   text-align: center;
+  font-family: "Shadows Into Light", cursive;
+  font-size: 15px;
+  color: #4c5c87;
+}
+.profile-button {
+  height: 50px;
+  width: 400px;
+  border: none;
+  background-color: #1d4d4f;
+  color: white;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 15px;
+}
+.input-profile {
+  width: 400px;
+  height: 75px;
+  border: none;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 15px;
 }

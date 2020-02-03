@@ -1,45 +1,134 @@
 .container-checklist {
   display: list-item;
   list-style-type: none;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  color: #4c5c87;
+  text-align: center;
 }
 .checklist-task-item {
   border: solid 1px;
+  border-radius: 10px 10px 10px 10px;
+  border-spacing: 10px;
+  border-spacing: 10px;
   padding: 15px;
   position: relative;
+  color: #4c5c87;
+  text-align: center;
+}
+.add-task-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 475px;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  margin-top: 10px;
+  color: #4c5c87;
+  text-align: center;
+  font-size: 18px;
+  height: 200px;
+  width: 600px;
+}
+
+.add-task-bar {
+  width: 400px;
+  height: 75px;
+  border: none;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 20px;
+}
+.select-add-container {
+  height: 75px;
+  width: 400px;
+  border: none;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 15px;
+}
+.btn-add-task {
+  height: 50px;
+  width: 400px;
+  border: none;
+  background-color: #1d4d4f;
+  color: white;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 15px;
+}
+.checklist-notlogin {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  color: #4c5c87;
+  text-align: center;
+  font-size: 20px;
+}
+
+.sign-in-here {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  color: #4c5c87;
+  font-size: 20px;
 }
 .link-twelveList {
   font-family: "Playfair Display", serif;
+  font-style: italic;
   color: #4c5c87;
-  font-size: 15px;
+  font-size: 18px;
   text-decoration: none;
+  text-align: center;
 }
 
 .link-eightList {
   font-family: "Playfair Display", serif;
+  font-style: italic;
   color: #4c5c87;
-  font-size: 15px;
+  font-size: 18px;
   text-decoration: none;
+  text-align: center;
 }
 
 .link-fourList {
   font-family: "Playfair Display", serif;
+  font-style: italic;
   color: #4c5c87;
-  font-size: 15px;
+  font-size: 18px;
   text-decoration: none;
+  text-align: center;
 }
 
 .link-oneList {
   font-family: "Playfair Display", serif;
+  font-style: italic;
   color: #4c5c87;
-  font-size: 15px;
+  font-size: 18px;
   text-decoration: none;
+  text-align: center;
 }
-ul :hover {
+.checklist-ul :hover {
   color: #1d4d4f;
+  font-size: 25px;
 }
-li {
-  list-style-type: none;
+h4 {
+  color: #4c5c87;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 25px;
+}
+.checklist-ul {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.checklist-li {
+  list-style-type: none;
   border: solid 1px;
   padding: 10px;
   width: 600px;
@@ -47,10 +136,8 @@ li {
 .bin-icon :hover {
   border: solid 1px;
   border-color: #1d4d4f;
-  padding: 10px 15px;
-  position: absolute;
+  padding: 10px;
 }
 .bin-icon {
-  position: absolute;
-  right: 80px;
+  margin-left: 450px;
 }

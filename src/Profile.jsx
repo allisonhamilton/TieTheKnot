@@ -73,25 +73,26 @@ class UnconnectedProfile extends Component {
           <div> {this.props.user.who}</div>
           <div>{this.props.user.country}</div>
 
-          <button onClick={this.editProfileClick}>Edit</button>
+          <button onClick={this.editProfileClick} className="profile-button">Edit</button>
         </div>
       );
     }
     if (this.props.toggleEditProfile) {
       return (
-        <div>
+        <div className="profile-container">
           <div>
             <img className="profile-img" src={this.props.user.image} />
           </div>
-          <form onSubmit={this.editProfileSubmit} className="profile-container">
+          <form onSubmit={this.editProfileSubmit}>
             <div>
-              {this.props.user.username}, change your username:
+              {this.props.user.username} Change your username:
               <div>
                 <input
                   type="text"
                   placeholder="New Username"
                   value={this.state.username}
                   onChange={this.usernameOnChange}
+                  className="input-profile"
                 />
               </div>
             </div>
@@ -103,22 +104,31 @@ class UnconnectedProfile extends Component {
                   placeholder="New Password"
                   value={this.state.password}
                   onChange={this.passwordOnChange}
+                  className="input-profile"
                 />
               </div>
             </div>
             <div>
               Change your profile photo
               <div>
-                <input type="file" onChange={this.imageOnChange} />
+                <input
+                  type="file"
+                  onChange={this.imageOnChange}
+                  className="input-profile"
+                />
               </div>
               <div>
                 Add a wedding date if you haven't already:
-                <input type="date" onChange={this.dateOnChange} />
+                <input
+                  type="date"
+                  onChange={this.dateOnChange}
+                  className="input-profile"
+                />
               </div>
             </div>
 
             <div>
-              <input type="submit" value="Update" />
+              <input className="profile-button" type="submit" value="Update" />
             </div>
           </form>
         </div>

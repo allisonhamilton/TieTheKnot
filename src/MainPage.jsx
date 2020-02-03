@@ -45,26 +45,34 @@ class UnconnectedMainPage extends Component {
             </div>
           </Link>
         </div>
-        <Carousel>
-          <div>
-            <img src="/uploads/mainpage-photo1.jpg" />
-          </div>
-          <div>
-            <img src="/uploads/mainpage-photo2.jpg" />
-          </div>
-          <div>
-            <img src="/uploads/mainpage-photo3.jpg" />
-          </div>
-          <div>
-            <img src="/uploads/mainpage-photo4.jpg" />
-          </div>
-          <div>
-            <img src="/uploads/mainpage-photo5.jpg" />
-          </div>
-          <div>
-            <img src="/uploads/mainpage-photo6.jpg" />
-          </div>
-        </Carousel>
+        <div>
+          <Carousel>
+            <div>
+              <img src="/uploads/mainpage-photo1.jpg" />
+              <p className="legend">1/6</p>
+            </div>
+            <div>
+              <img src="/uploads/mainpage-photo2.jpg" />
+              <p className="legend">2/6</p>
+            </div>
+            <div>
+              <img src="/uploads/mainpage-photo3.jpg" />
+              <p className="legend">3/6</p>
+            </div>
+            <div>
+              <img src="/uploads/mainpage-photo4.jpg" />
+              <p className="legend">4/6</p>
+            </div>
+            <div>
+              <img src="/uploads/mainpage-photo5.jpg" />
+              <p className="legend">5/6</p>
+            </div>
+            <div>
+              <img src="/uploads/mainpage-photo6.jpg" />
+              <p className="legend">6/6</p>
+            </div>
+          </Carousel>
+        </div>
       </div>
     );
   }

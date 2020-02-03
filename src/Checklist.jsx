@@ -64,7 +64,7 @@ class UnconnectedChecklist extends Component {
         this.props.dispatch({ type: "set-tasks-one", tasks: oneBodyTasks });
       }
     };
-    let myInterval = setInterval(updateTasks, 300);
+    let myInterval = setInterval(updateTasks, 800);
   };
   addItemChange = event => {
     this.setState({ input: event.target.value });
@@ -113,6 +113,10 @@ class UnconnectedChecklist extends Component {
       console.log("why??????", ele, i);
       return i === index;
     });
+    let taskList = this.props.listTwelve.filter((ele, i) => {
+      console.log("why??????", ele, i);
+      return i !== index;
+    });
     console.log("DELETEDDD", task);
     let data = new FormData();
     data.append("task", task[0].title);
@@ -124,6 +128,7 @@ class UnconnectedChecklist extends Component {
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
     if (!body.success) {
+      this.props.dispatch({ type: "deleteTaskTwelve", listTwelve: taskList });
       alert("Your task hasn't been deleted, please try again!");
     }
     alert("This task has been deleted from your checklist!");
@@ -150,23 +155,32 @@ class UnconnectedChecklist extends Component {
     if (this.props.loggedIn === "") {
       return (
         <div>
-          <span>You must be signed in to access your profile page.</span>
-          <Link to="/login">Sign in here.</Link>
+          <span className="checklist-notlogin">
+            You must be signed in to access your profile page.
+          </span>
+          <Link to="/login" className="sign-in-here">
+            Sign in here.
+          </Link>
         </div>
       );
     }
     if (this.props.login) {
       return (
-        <div>
-          <form onSubmit={this.addTaskSubmit}>
+        <div className="checklist-container">
+          <form onSubmit={this.addTaskSubmit} className="add-task-container">
             <input
               name="title"
               type="text"
               placeholder="Add a new task..."
               value={this.state.input}
               onChange={this.addItemChange}
+              className="add-task-bar"
             />
-            <select name="dueDate" onChange={this.dueDateChange}>
+            <select
+              name="dueDate"
+              onChange={this.dueDateChange}
+              className="select-add-container"
+            >
               <option value="">--When should this task be done-</option>
               <option value="8 to 12 months before">
                 8 to 12 months before
@@ -175,15 +189,19 @@ class UnconnectedChecklist extends Component {
               <option value="1 to 4 months before">1 to 4 months before</option>
               <option value="1 months left">1 months before</option>
             </select>
-            <input type="submit" value="Add to checklist" />
+            <input
+              type="submit"
+              value="Add to checklist"
+              className="btn-add-task"
+            />
           </form>
 
           <div>
             <h4>What you should do from 8 months to 12 months ahead</h4>
-            <ul>
+            <ul className="checklist-ul">
               {this.props.listTwelve.map((tasks, index) => {
                 return (
-                  <li>
+                  <li className="checklist-li">
                     <Link
                       className="link-twelveList"
                       to={"/checklist/description/" + tasks._id}
@@ -211,11 +229,10 @@ class UnconnectedChecklist extends Component {
           </div>
           <div>
             <h4>What you should do from 4 to 8 months ahead</h4>
-            <ul>
+            <ul className="checklist-ul">
               {this.props.listEight.map((tasks, index) => {
                 return (
-                  <li>
-                    {" "}
+                  <li className="checklist-li">
                     <Link
                       className="link-eightList"
                       to={"/checklist/description/" + tasks._id}
@@ -243,10 +260,10 @@ class UnconnectedChecklist extends Component {
           </div>
           <div>
             <h4>What you should do 1 to 4 months before</h4>
-            <ul>
+            <ul className="checklist-ul">
               {this.props.listFour.map((tasks, index) => {
                 return (
-                  <li>
+                  <li className="checklist-li">
                     <Link
                       className="link-eightList"
                       to={"/checklist/description/" + tasks._id}
@@ -274,10 +291,10 @@ class UnconnectedChecklist extends Component {
           </div>
           <div>
             <h4>What you should be doing within 1 month of your wedding</h4>
-            <ul>
+            <ul className="checklist-ul">
               {this.props.listOne.map((tasks, index) => {
                 return (
-                  <li>
+                  <li className="checklist-li">
                     {" "}
                     <Link
                       className="link-eightList"

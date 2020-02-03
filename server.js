@@ -153,7 +153,20 @@ app.post("/signup", upload.none(), (req, res) => {
 app.post("/deleteInTwelve", upload.none(), (req, res) => {
   console.log("req.body.task", req.body.task);
   let task = req.body.task;
-  dbo.collection("TasksAtTwelve").deleteOne({ title: task });
+  dbo.collection("TasksAtTwelve").deleteOne({ title: task }, (err, tasks) => {
+    if (err) {
+      res.send(JSON.stringify({ success: false }));
+      return;
+    }
+    if (tasks === undefined) {
+      res.send(JSON.stringify({ success: false }));
+      return;
+    }
+    if (tasks !== undefined) {
+      res.send(JSON.stringify({ success: true, ListTwelve: tasks }));
+      return;
+    }
+  });
 });
 app.post("/autoChecklist", upload.none(), (req, res) => {
   let email = req.body.email;
@@ -495,8 +508,12 @@ app.post("/login", upload.none(), (req, res) => {
 });
 app.post("/editUser", upload.single("img"), (req, res) => {
   let username = req.body.username;
+  let password = req.body.password;
+  let date = req.body.date;
+  let image = req.body.image;
   let email = req.body.email;
-  let sessionId = req.body.cookies;
+  let sessionId = req.cookies.sid;
+
   dbo
     .collection("users")
     .updateOne({ email: email }, { $set: { username: username } });
@@ -578,9 +595,10 @@ app.post("/newTask", upload.none(), (req, res) => {
   );
 });
 app.post("/logout", upload.none(), (res, req) => {
-  let sessionId = req.cookies.sessionId;
+  console.log("cookie", req.cookies);
+  let sessionId = req.cookies.sid;
   let username = sessions[sessionId];
-
+  console.log("loggin out ?????");
   if (username === undefined) {
     res.send(JSON.stringify({ success: false }));
     return;

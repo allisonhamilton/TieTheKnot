@@ -143,6 +143,7 @@ class UnconnectedSignup extends Component {
                 placeholder="First name..."
                 value={this.state.username}
                 onChange={this.signupUsernameChange}
+                className="signup-input-box"
               />
             </div>
             <div className="signup-child">
@@ -152,6 +153,7 @@ class UnconnectedSignup extends Component {
                 placeholder="Password..."
                 value={this.state.password}
                 onChange={this.signupPasswordChange}
+                className="signup-input-box"
               />
             </div>
             <div className="signup-child">
@@ -163,6 +165,7 @@ class UnconnectedSignup extends Component {
                 id="email"
                 pattern=".+@+.+.com"
                 onChange={this.emailOnChange}
+                className="signup-input-box"
               />
             </div>
             <div className="signup-child">
@@ -172,6 +175,7 @@ class UnconnectedSignup extends Component {
                 id="country"
                 name="country"
                 onChange={this.countryOnChange}
+                className="signup-input-box"
               >
                 <option value="">--Please choose a country--</option>
                 {countries.map(country => {
@@ -181,7 +185,11 @@ class UnconnectedSignup extends Component {
             </div>
             <div className="signup-child">
               The wedding date is...
-              <input type="date" onChange={this.dateOnChange} />
+              <input
+                type="date"
+                onChange={this.dateOnChange}
+                className="signup-input-box"
+              />
             </div>
             <div className="signup-child">
               I am ...
@@ -189,6 +197,7 @@ class UnconnectedSignup extends Component {
                 name="others"
                 id="other-options"
                 onChange={this.whoOnChange}
+                className="signup-input-box"
               >
                 <option value="">--Please choose who you are--</option>
                 <option value="Bride">I am the bride</option>

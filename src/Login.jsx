@@ -38,7 +38,8 @@ class UnconnectedLogin extends Component {
     {
       this.props.dispatch({
         type: "login-success",
-        loggedIn: this.state.loginEmail
+        loggedIn: this.state.loginEmail,
+        login: true
       });
       this.setState({ redirect: true });
       alert("login successful");
@@ -59,6 +60,7 @@ class UnconnectedLogin extends Component {
               value={this.state.loginEmail}
               placeholder="Email..."
               onChange={this.usernameChange}
+              className="input-box"
             />
           </div>
           <div>
@@ -67,6 +69,7 @@ class UnconnectedLogin extends Component {
               value={this.state.loginPwd}
               placeholder="Password..."
               onChange={this.passwordChange}
+              className="input-box"
             />
           </div>
           <input type="submit" className="login-button" />

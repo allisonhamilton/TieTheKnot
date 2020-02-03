@@ -18,7 +18,7 @@ class UnconnectedApp extends Component {
       let body = JSON.parse(responseBody);
       this.props.dispatch({ type: "set-users", users: body.user });
     };
-    let myInterval = setInterval(updateUsers, 500);
+    setInterval(updateUsers, 100);
   };
   mainPageRender = () => {
     return <MainPage />;
@@ -32,18 +32,17 @@ class UnconnectedApp extends Component {
   profilePageRender = routerData => {
     let userId = routerData.match.params._id;
 
-    let user = this.props.users.find(user => {
+    let user = this.props.users.filter(user => {
       return user._id === userId;
     });
 
-    return <Profile user={user} />;
+    return <Profile user={user[0]} />;
   };
   checklistPageRender = () => {
     return <Checklist />;
   };
   checklistDescriptionPageRender = routerData => {
     let checklistItem = routerData.match.params.item;
-    console.log("whats this checklist item", checklistItem); //item id
 
     return <TaskDescription />;
   };
